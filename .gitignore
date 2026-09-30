@@ -1,0 +1,4 @@
+.claude/
+*.localbak
+Thumbs.db
+.DS_Store

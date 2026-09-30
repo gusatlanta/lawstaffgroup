@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+  <link rel="apple-touch-icon" href="img/favicon-180.png">
+  <title>Browse Legal Talent — Paralegals, Attorneys & Legal Support | LawStaff Group</title>
+  <meta name="description" content="Browse anonymous profiles of paralegals, attorneys, legal assistants and other legal professionals represented by LawStaff Group.">
+  <link rel="canonical" href="https://lawstaffgroup.net/candidates.html">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="LawStaff Group">
+  <meta property="og:title" content="Browse Legal Talent — Paralegals, Attorneys & Legal Support | LawStaff Group">
+  <meta property="og:description" content="Browse anonymous profiles of paralegals, attorneys, legal assistants and other legal professionals represented by LawStaff Group.">
+  <meta property="og:url" content="https://lawstaffgroup.net/candidates.html">
+  <meta property="og:image" content="https://lawstaffgroup.net/img/lawstaff-logo.png">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#0b1f3d">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ── Navigation ───────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand" aria-label="LawStaff Group — home">
+      <img src="img/lawstaff-logo.png" alt="LawStaff Group — powered by NorthPoint" class="brand-logo" width="159" height="58">
+    </a>
+    <div class="nav-menu" id="navMenu">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="services.html">Hiring Solutions</a></li>
+        <li class="has-mega">
+          <a href="index.html#specialties">Specialties <span class="chevron">▾</span></a>
+          <div class="dropdown-menu">
+            <a href="candidates.html?kw=attorney">Attorneys</a>
+            <a href="candidates.html?kw=paralegal">Paralegals</a>
+            <a href="candidates.html?kw=legal%20secretary">Legal Secretaries</a>
+            <a href="candidates.html?kw=legal%20administrator">Legal Administrators</a>
+            <a href="candidates.html?kw=litigation">Litigation Support</a>
+            <a href="candidates.html?kw=legal%20assistant">Legal Office Services</a>
+            <a href="candidates.html?kw=legal%20nurse">Legal Nurse Consultants</a>
+            <a href="candidates.html">All Legal Talent</a>
+          </div>
+        </li>
+        <li><a href="candidates.html">Find Talent</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-ctas">
+        <a href="https://100xjobs.com" target="_blank" rel="noopener" class="btn btn-outline-dark">Search Jobs</a>
+        <a href="contact.html" class="btn btn-primary">Hire Legal Talent</a>
+      </div>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<section class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=1600&q=80');background-size:cover;background-position:center;">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Find Talent</div>
+    <h1>Browse <em>Legal</em> Talent</h1>
+    <p>Paralegals, attorneys and legal support professionals from our candidate database. Names are hidden to protect confidentiality.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <form class="db-search" id="ltForm" style="margin-top:0;">
+      <input type="text" name="q" id="ltQuery" placeholder="Search — Paralegal, Attorney, Litigation, Real Estate…" aria-label="Search legal talent">
+      <button type="submit" class="btn btn-primary"><svg class="ico" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg> Search</button>
+    </form>
+    <div class="lt-chips" id="ltChips">
+      <button type="button" class="lt-chip active" data-kw="">All Legal Talent</button>
+      <button type="button" class="lt-chip" data-kw="paralegal">Paralegals</button>
+      <button type="button" class="lt-chip" data-kw="attorney">Attorneys</button>
+      <button type="button" class="lt-chip" data-kw="legal assistant">Legal Assistants</button>
+      <button type="button" class="lt-chip" data-kw="legal secretary">Legal Secretaries</button>
+      <button type="button" class="lt-chip" data-kw="litigation">Litigation Support</button>
+      <button type="button" class="lt-chip" data-kw="counsel">General Counsel</button>
+    </div>
+    <div class="lt-count" id="ltCount" aria-live="polite">Loading legal talent…</div>
+    <div class="lt-grid" id="ltGrid"></div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container centered">
+    <span class="section-kicker">Don't See Who You Need?</span>
+    <h2 class="section-title">We Recruit for Every Order</h2>
+    <div class="section-divider"></div>
+    <p class="section-sub">The profiles here are only part of our network. Tell us about your opening and we will present pre-screened, qualified candidates for it.</p>
+    <div style="margin-top:26px;"><a href="contact.html" class="btn btn-primary">Place an Order →</a></div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand-chip" aria-label="LawStaff Group — home">
+          <img src="img/lawstaff-logo.png" alt="LawStaff Group — powered by NorthPoint" class="brand-logo" width="159" height="58">
+        </a>
+        <p>A full-service legal recruiting firm placing top-tier legal professionals on a temporary, temp-to-hire and direct-hire basis — since 2003.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Hiring Solutions</a></li>
+          <li><a href="services.html#how-we-work">How We Work</a></li>
+          <li><a href="candidates.html">Browse Legal Talent</a></li>
+          <li><a href="about.html#join">Join Our Team</a></li>
+          <li><a href="https://100xjobs.com" target="_blank" rel="noopener">Search Jobs ↗</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:gus@stafffinancial.com">gus@stafffinancial.com</a></li>
+          <li><a href="contact.html">Send a Message</a></li>
+          <li><a href="contact.html">Place an Order</a></li>
+          <li><span>Atlanta, GA · Since 2003</span></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">
+      <span>&copy; 2026 LawStaff Group. Powered by NorthPoint. All rights reserved.</span>
+      <a href="contact.html">Contact Us</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/legal-talent.js"></script>
+<script>
+(function(){
+  var grid=document.getElementById('ltGrid');
+  var count=document.getElementById('ltCount');
+  var input=document.getElementById('ltQuery');
+  var chips=document.querySelectorAll('#ltChips .lt-chip');
+  var run=0;
+
+  function show(list, kw){
+    if(!list.length){
+      count.textContent='';
+      grid.innerHTML='<div class="lt-empty">No legal professionals matched'+(kw?' that search':'')+' right now.<br><a href="contact.html" style="color:var(--blue);font-weight:600;">Tell us what you need →</a></div>';
+      return;
+    }
+    count.textContent=list.length+' legal professional'+(list.length===1?'':'s')+(kw?' matching your search':'');
+    grid.innerHTML=list.map(LawStaffTalent.card).join('');
+  }
+
+  function load(kw){
+    var mine=++run;
+    kw=(kw||'').trim();
+    count.textContent='Loading legal talent…';
+    grid.innerHTML='';
+    chips.forEach(function(c){ c.classList.toggle('active',(c.dataset.kw||'')===kw.toLowerCase()); });
+    var job=kw?LawStaffTalent.search(kw):LawStaffTalent.allLegal();
+    job.then(function(list){ if(mine===run) show(list,kw); });
+  }
+
+  chips.forEach(function(c){
+    c.addEventListener('click',function(){ input.value=c.dataset.kw||''; load(c.dataset.kw||''); });
+  });
+  document.getElementById('ltForm').addEventListener('submit',function(e){ e.preventDefault(); load(input.value); });
+
+  var kw=new window.URLSearchParams(window.location.search).get('kw')||'';
+  input.value=kw;
+  load(kw);
+})();
+</script>
+</body>
+</html>
