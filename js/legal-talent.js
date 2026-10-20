@@ -92,13 +92,18 @@ window.LawStaffTalent = (function () {
     (c.skills || []).slice(0, 3).forEach(function (s) {
       badges += '<span class="mpc-badge">' + esc(String(s).slice(0, 34)) + '</span>';
     });
-    var href = 'contact.html?candidate=' + encodeURIComponent(c.id) + '&title=' + encodeURIComponent(c.title || '');
-    return '<a class="mpc-card" href="' + href + '">'
+    // BENCH_RESUME_LINK_v1: open their blinded résumé; no résumé link → ask about them
+    var open = c.resume_url
+      ? '<a class="mpc-card" href="' + esc(c.resume_url) + '" target="_blank" rel="noopener nofollow">'
+      : '<a class="mpc-card" href="contact.html?candidate=' + encodeURIComponent(c.id)
+        + '&title=' + encodeURIComponent(c.title || '') + '">';
+    var cta = c.resume_url ? 'View blinded résumé →' : 'Ask about this candidate →';
+    return open
       + '<div class="mpc-card-head"><div class="mpc-avatar">' + initials(c.title) + '</div>'
       + '<div><div class="mpc-card-title">' + esc(c.title || 'Legal Professional') + '</div>'
       + '<div class="mpc-card-loc">' + PIN + ' ' + esc(c.location || 'United States') + '</div></div></div>'
       + (badges ? '<div class="mpc-badges">' + badges + '</div>' : '')
-      + '<span class="mpc-card-cta">Ask about this candidate →</span></a>';
+      + '<span class="mpc-card-cta">' + cta + '</span></a>';
   }
 
   return { allLegal: allLegal, search: search, card: card };
