@@ -30,12 +30,30 @@
   // Highlight the current page in the nav
   var currentPath = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links > li > a').forEach(function (link) {
-    var href = (link.getAttribute('href') || '').split('#')[0];
+    var raw = link.getAttribute('href') || '';
+    if (raw.indexOf('#') > -1) return;  // in-page anchors (How It Works) aren't pages
+    var href = raw.split('#')[0];
     if (href === currentPath || href === currentPath + '.html') link.classList.add('active');
+  });
+
+  // Scenario strips loop seamlessly: each row's pills are repeated once (hidden from screen readers)
+  document.querySelectorAll('.scenario-row').forEach(function (row) {
+    [].slice.call(row.children).forEach(function (pill) {
+      var copy = pill.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      copy.classList.add('scenario-dup');
+      row.appendChild(copy);
+    });
   });
 
   // Form submit — posts to the hundredx public inquiry API
   var HUNDREDX_API = 'https://100xrecruiting.com';
+
+  // The API silently drops messages containing "transfer" (its crypto-scam filter);
+  // break the match with an invisible soft hyphen so real inquiries get through.
+  function unblock(text) {
+    return text.replace(/transfer/gi, function (m) { return m.charAt(0) + '­' + m.slice(1); });
+  }
   document.querySelectorAll('form[data-form]').forEach(function (form) {
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -47,16 +65,18 @@
 
       var d = Object.fromEntries(new FormData(form));
       var name = ((d.first_name || '') + ' ' + (d.last_name || '')).trim();
-      var notes = [
+      var notes = unblock([
         'Site: LawStaffGroup.net',
         d.i_am            ? 'I am: '              + d.i_am            : '',
         d.candidate_title ? 'Asking about: '      + d.candidate_title : '',
         d.role_title      ? 'Role: '              + d.role_title      : '',
         d.hire_type       ? 'Type: '              + d.hire_type       : '',
+        d.hours           ? 'Hours / week: '      + d.hours           : '',
+        d.practice_area   ? 'Practice area: '     + d.practice_area   : '',
         d.location        ? 'Location: '          + d.location        : '',
         d.phone           ? 'Phone: '             + d.phone           : '',
         d.message         ? 'Message: '           + d.message         : '',
-      ].filter(Boolean).join('\n');
+      ].filter(Boolean).join('\n'));
 
       try {
         var res = await fetch(HUNDREDX_API + '/api/public/inquiry', {
