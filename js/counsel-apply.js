@@ -33,44 +33,16 @@
   });
   JURISDICTIONS = JURISDICTIONS.concat(COUNTRIES);
 
-  /* Practice area taxonomy: "Area (General)" plus "Area > Specialty". */
-  var PRACTICE_TREE = {
-    'Administrative & Regulatory': ['Federal Agency Practice', 'State & Local Regulatory', 'Government Contracts (FAR / DFARS)', 'Licensing & Permits', 'Lobbying & Political Law'],
-    'Antitrust & Competition': ['Merger Review (HSR)', 'Competition Counseling', 'Antitrust Litigation'],
-    'Banking & Finance': ['Lending & Credit Facilities', 'Banking Regulation', 'Consumer Finance (CFPB)', 'Structured Finance'],
-    'Bankruptcy & Restructuring': ['Creditor Rights', 'Debtor Representation', 'Out-of-Court Workouts'],
-    'Commercial Contracts': ['Vendor & Procurement', 'Customer & Sales Agreements', 'Master Services Agreements', 'Distribution & Reseller', 'Contract Playbooks & Templates'],
-    'Compliance & Ethics': ['Compliance Programs', 'Internal Investigations', 'Anti-Money Laundering (AML / KYC)', 'Whistleblower Programs'],
-    'Construction': ['Construction Contracts', 'Construction Disputes'],
-    'Consumer Protection': ['Advertising & Marketing', 'Product Liability', 'Consumer Class Actions'],
-    'Corporate & Governance': ['Entity Formation', 'Board & Governance', 'Corporate Secretary', 'Shareholder & Partnership Matters', 'Nonprofit Governance'],
-    'Cybersecurity & Privacy': ['Privacy Programs (GDPR / CCPA)', 'Data Breach Response', 'HIPAA Privacy', 'Data Processing Agreements', 'AI Governance'],
-    'Employment & Labor': ['Employment Counseling', 'Policies & Handbooks', 'Executive Compensation', 'Benefits & ERISA', 'Immigration', 'Labor Relations', 'Workplace Investigations', 'Employment Litigation'],
-    'Energy & Environment': ['Oil & Gas', 'Renewables & Project Development', 'Environmental Compliance', 'Utilities'],
-    'Entertainment, Media & Sports': ['Content & Publishing', 'Music & Film', 'Sports'],
-    'Financial Services & Fintech': ['Fintech & Payments', 'Investment Management', 'Broker-Dealer', 'Crypto & Digital Assets', 'Insurance Regulatory'],
-    'Franchise & Distribution': ['Franchise Disclosure (FDD)', 'Franchise Relationships'],
-    'Healthcare & Life Sciences': ['Healthcare Regulatory', 'FDA Regulatory', 'Fraud & Abuse (Stark / AKS)', 'Provider Transactions', 'Clinical Trials'],
-    'Insurance': ['Coverage', 'Claims Management'],
-    'Intellectual Property': ['Trademarks', 'Copyrights', 'Patent Prosecution', 'Patent Litigation', 'Trade Secrets', 'IP Licensing', 'Brand Protection'],
-    'International & Cross-Border': ['International Trade & Customs', 'Export Controls & Sanctions', 'FCPA & Anti-Corruption', 'Cross-Border Transactions', 'International Arbitration'],
-    'Litigation & Disputes': ['Commercial Litigation', 'Litigation Management', 'Arbitration & Mediation', 'Class Actions', 'Appellate', 'E-Discovery'],
-    'Mergers & Acquisitions (M&A)': ['Buy-Side', 'Sell-Side', 'Due Diligence', 'Post-Merger Integration', 'Private Equity'],
-    'Nonprofit & Tax-Exempt': ['Tax-Exempt Formation & Compliance', 'Charitable Giving'],
-    'Real Estate': ['Commercial Leasing', 'Acquisitions & Dispositions', 'Development', 'Real Estate Finance', 'Land Use & Zoning'],
-    'Securities & Capital Markets': ['SEC Reporting', 'IPOs & Public Offerings', 'Public Company Counseling', 'Private Placements'],
-    'Tax': ['Corporate Tax', 'Partnership Tax', 'State & Local Tax', 'International Tax', 'Tax Controversy'],
-    'Technology & SaaS': ['SaaS Agreements', 'Software Licensing', 'Open Source', 'AI & Emerging Tech', 'Technology Transactions', 'E-Commerce'],
-    'Transportation & Logistics': ['Aviation', 'Maritime', 'Trucking & Logistics'],
-    'Trusts & Estates': ['Estate Planning', 'Business Succession'],
-    'Venture Capital & Startups': ['Startup Formation', 'Seed & Venture Financing', 'SAFEs & Convertible Notes', 'Equity Compensation', 'Fund Formation'],
-    'White Collar & Investigations': ['Government Investigations', 'White Collar Defense']
-  };
-  var PRACTICE = [];
-  Object.keys(PRACTICE_TREE).forEach(function (area) {
-    PRACTICE.push(area + ' (General)');
-    PRACTICE_TREE[area].forEach(function (s) { PRACTICE.push(area + ' > ' + s); });
-  });
+  /* PRACTICE_80_20_v1 (Gus 10-24: "that is too much - 80/20 rule"): the practice areas most
+     of our attorneys, paralegals and legal staff work in. Anything else, they type their own. */
+  var PRACTICE = [
+    'Banking & Finance', 'Bankruptcy & Restructuring', 'Commercial Contracts', 'Compliance & Regulatory',
+    'Construction', 'Corporate / M&A', 'Criminal Defense', 'Employment & Labor', 'Family Law',
+    'Government Contracts', 'Healthcare', 'Immigration', 'Insurance Defense', 'Intellectual Property',
+    'Litigation', 'Medical Malpractice', 'Personal Injury', 'Privacy & Data Protection', 'Real Estate',
+    'Securities', 'Startups & Venture Capital', 'Tax', 'Technology & SaaS', 'Trusts & Estates',
+    'Workers\' Compensation'
+  ];
 
   var OPTIONS = { jurisdictions: JURISDICTIONS, practice: PRACTICE };
 
