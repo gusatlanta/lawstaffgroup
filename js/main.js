@@ -65,28 +65,51 @@
         d.candidate_title ? 'Asking about: '      + d.candidate_title : '',
         d.role_title      ? 'Role: '              + d.role_title      : '',
         d.hire_type       ? 'Type: '              + d.hire_type       : '',
+        d.need            ? 'Needs: '             + d.need            : '',
+        d.engagement      ? 'Temp or permanent: ' + d.engagement      : '',
+        d.schedule        ? 'Full / part time: '  + d.schedule        : '',
+        d.work_setup      ? 'Work location: '     + d.work_setup      : '',
         d.hours           ? 'Hours / week: '      + d.hours           : '',
         d.practice_area   ? 'Practice area: '     + d.practice_area   : '',
+        d.years           ? 'Years of experience: ' + d.years         : '',
         d.location        ? 'Location: '          + d.location        : '',
+        d.contact_title   ? 'Title: '             + d.contact_title   : '',
         d.phone           ? 'Phone: '             + d.phone           : '',
         d.message         ? 'Message: '           + d.message         : '',
+        d.details         ? 'Details: '           + d.details         : '',
+        d.heard_from      ? 'Heard about us: '    + d.heard_from      : '',
       ].filter(Boolean).join('\n');
 
       try {
-        var res = await fetch(HUNDREDX_API + '/api/public/inquiry', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            employer_name:    name || d.name || '',
-            employer_email:   d.email || '',
-            employer_company: d.company || '',
-            inquiry_type:     form.dataset.form,
-            candidate_id:     d.candidate_id || '',
-            hp_website:       d.hp_website || '',
-            notes:            notes,
-          }),
-        });
-        var json = await res.json().catch(function () { return {}; });
+        // LAWSTAFF_DOORS_v1: a form with data-endpoint posts to its own 100X door first; if that
+        // door isn't there (404 / network), it falls back to the inquiry inbox so nothing is lost.
+        var json = null;
+        if (form.dataset.endpoint) {
+          var direct = await fetch(HUNDREDX_API + form.dataset.endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(d),
+          }).catch(function () { return null; });
+          if (direct && direct.status !== 404 && direct.status !== 405) {
+            json = await direct.json().catch(function () { return {}; });
+          }
+        }
+        if (!json) {
+          var res = await fetch(HUNDREDX_API + '/api/public/inquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              employer_name:    name || d.name || '',
+              employer_email:   d.email || '',
+              employer_company: d.company || '',
+              inquiry_type:     form.dataset.form,
+              candidate_id:     d.candidate_id || '',
+              hp_website:       d.hp_website || '',
+              notes:            notes,
+            }),
+          });
+          json = await res.json().catch(function () { return {}; });
+        }
         if (json.ok) {
           form.reset();
           if (successEl) successEl.style.display = 'block';

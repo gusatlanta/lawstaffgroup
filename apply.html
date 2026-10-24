@@ -360,8 +360,12 @@
 
     <!-- 12 -->
     <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">LinkedIn &amp; Highlights</h3>
-      <p class="step-hint">Help us and our clients get to know your work.</p>
+      <h3 tabindex="-1">Résumé &amp; LinkedIn</h3>
+      <p class="step-hint">Your résumé is what our recruiters and clients review first.</p>
+      <div class="form-group">
+        <label for="a-resume">Résumé (PDF or Word, up to 10 MB)</label>
+        <input type="file" id="a-resume" name="resume" class="form-control" accept=".pdf,.doc,.docx" required data-label="Résumé" data-msg="Please attach your résumé (PDF or Word).">
+      </div>
       <div class="form-group">
         <label for="a-linkedin">LinkedIn Profile</label>
         <input type="text" id="a-linkedin" name="linkedin" class="form-control" placeholder="https://www.linkedin.com/in/your-profile-name" inputmode="url" autocomplete="url" required data-linkedin data-label="LinkedIn">
@@ -416,10 +420,14 @@
   <section class="apply-card apply-done" id="applyDone" hidden aria-labelledby="doneTitle">
     <div class="apply-done-icon" aria-hidden="true">✓</div>
     <h3 id="doneTitle" tabindex="-1">Application received</h3>
-    <p>Thank you. Your next step is your video interview: a LawStaff recruiter will contact you at <strong id="doneEmail"></strong> to set it up. You can record it from your phone or laptop.</p>
+    <p id="doneManual">Thank you. Your next step is your video interview: a LawStaff recruiter will contact you at <strong id="doneEmail"></strong> to set it up. You can record it from your phone or laptop.</p>
+    <div id="doneVideo" hidden>
+      <p>Thank you. Your next step is your video interview. Record it now from your phone or laptop, or later from the link we email to <strong id="doneEmail2"></strong>.</p>
+      <p style="margin-top:18px;"><a id="doneVideoLink" class="btn btn-primary btn-lg" href="#" target="_blank" rel="noopener">🎥 Record your video interview now</a></p>
+    </div>
     <ol class="num-steps">
-      <li><strong>Record your video interview</strong> when we reach out to set it up.</li>
-      <li><strong>We review your application,</strong> confirm your bar admissions and check references.</li>
+      <li><strong>Record your video interview</strong> from your phone or laptop.</li>
+      <li><strong>We review your application</strong> and check references, plus bar admissions for attorneys.</li>
       <li><strong>Once you're approved,</strong> we start presenting you to clients that fit your practice, rate and availability.</li>
     </ol>
     <a href="index.html" class="btn btn-primary">Back to LawStaff Group</a>

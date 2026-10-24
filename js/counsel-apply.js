@@ -5,6 +5,7 @@
    it lands in the recruiter inbox and emails the team. */
 (function () {
   var API = 'https://100xrecruiting.com/api/public/inquiry';
+  var APPLY_DOOR = 'https://100xrecruiting.com/api/public/lawstaff/apply';   /* LAWSTAFF_DOORS_v1 */
   var DRAFT_KEY = 'lsg-counsel-application-v1';
 
   var US = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware',
@@ -340,6 +341,8 @@
       value = [].map.call(el.querySelectorAll('input:checked'), function (i) { return i.value; }).join('; ');
     } else if (el.type === 'checkbox') {
       value = el.checked ? (el.dataset.on || el.value) : '';
+    } else if (el.type === 'file') {
+      value = el.files && el.files[0] ? el.files[0].name : '';
     } else {
       value = el.value.trim();
     }
@@ -358,7 +361,7 @@
   function values() {
     var out = {};
     [].forEach.call(form.elements, function (el) {
-      if (!el.name || el.name === 'hp_website') return;
+      if (!el.name || el.name === 'hp_website' || el.type === 'file') return;   /* a file can't be saved in a draft */
       if (el.type === 'checkbox') {
         out[el.name] = out[el.name] || [];
         if (el.checked) out[el.name].push(el.value);
@@ -402,7 +405,7 @@
     if (!draft || !draft.values) return 0;
     var v = draft.values;
     [].forEach.call(form.elements, function (el) {
-      if (!el.name || !(el.name in v)) return;
+      if (!el.name || !(el.name in v) || el.type === 'file') return;
       if (el.type === 'checkbox') el.checked = (v[el.name] || []).indexOf(el.value) > -1;
       else if (el.type === 'radio') el.checked = v[el.name] === el.value;
       else el.value = v[el.name];
@@ -432,6 +435,13 @@
     for (var i = 0; i < fields.length; i++) {
       var f = fields[i];
       if (f.type === 'hidden' || f.closest('[hidden]:not(.apply-step)') || f.closest('[data-group]')) continue;
+      if (f.type === 'file' && f.files && f.files[0]) {
+        var fname = f.files[0].name.toLowerCase();
+        if (!(fname.endsWith('.pdf') || fname.endsWith('.doc') || fname.endsWith('.docx'))) {
+          return fail(f, 'Please attach your résumé as a PDF or Word file.');
+        }
+        if (f.files[0].size > 10 * 1024 * 1024) return fail(f, 'Please attach a résumé under 10 MB.');
+      }
       if (f.hasAttribute('data-linkedin') && f.value.trim()) {
         normalizeUrl(f);
         if (!/linkedin\.com\//i.test(f.value)) return fail(f, 'Please enter a LinkedIn username or a linkedin.com profile URL.');
@@ -550,36 +560,65 @@
     return lines.join('\n');
   }
 
+  /* LAWSTAFF_DOORS_v1: the application and résumé go to 100X's LawStaff door, which makes the
+     candidate, sends them to PCR and answers with a record-your-video link. null when that door
+     isn't there (404 / network), so send() can still reach the inquiry inbox. */
+  async function sendToDoor() {
+    var fd = new FormData();
+    ['first_name', 'last_name', 'email', 'phone', 'hp_website'].forEach(function (k) { fd.append(k, field(k)); });
+    fd.append('role', roleKey());
+    fd.append('notes', buildNotes());
+    var file = form.elements.resume && form.elements.resume.files[0];
+    if (file) fd.append('resume', file);
+    var res = await fetch(APPLY_DOOR, { method: 'POST', body: fd }).catch(function () { return null; });
+    if (!res || res.status === 404 || res.status === 405) return null;
+    return res.json().catch(function () { return { ok: false }; });
+  }
+
   async function send() {
     var name = (field('first_name') + ' ' + field('last_name')).trim();
     nextBtn.disabled = true;
     nextBtn.textContent = 'Submitting…';
     try {
-      var res = await fetch(API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          employer_name:    name,
-          employer_email:   field('email'),
-          employer_company: roleValue() + ' applicant — ' + name,
-          inquiry_type:     'lawstaff-' + roleKey() + '-application',
-          candidate_id:     '',
-          hp_website:       field('hp_website'),
-          notes:            buildNotes(),
-        }),
-      });
-      var json = await res.json().catch(function () { return {}; });
-      if (!json.ok) throw new Error(json.error || 'server error');
-      done();
+      var json = await sendToDoor();
+      if (!json) {
+        var res = await fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            employer_name:    name,
+            employer_email:   field('email'),
+            employer_company: roleValue() + ' applicant — ' + name,
+            inquiry_type:     'lawstaff-' + roleKey() + '-application',
+            candidate_id:     '',
+            hp_website:       field('hp_website'),
+            notes:            buildNotes(),
+          }),
+        });
+        json = await res.json().catch(function () { return {}; });
+      }
+      if (!json.ok) {
+        var bad = new Error(json.error || '');
+        bad.fromServer = true;
+        throw bad;
+      }
+      done(json.video_link || '');
     } catch (err) {
       nextBtn.disabled = false;
       nextBtn.textContent = 'Submit Application';
-      showError('Something went wrong sending your application. Please try again, or call 404-250-0790 or email gus@stafffinancial.com.');
+      showError(err && err.fromServer && err.message ? err.message
+        : 'Something went wrong sending your application. Please try again, or call 404-250-0790 or email gus@stafffinancial.com.');
     }
   }
 
-  function done() {
+  function done(videoLink) {
     var email = field('email');
+    if (videoLink) {   /* the door answered with a record link: offer it right here */
+      document.getElementById('doneManual').hidden = true;
+      document.getElementById('doneVideo').hidden = false;
+      document.getElementById('doneEmail2').textContent = email;
+      document.getElementById('doneVideoLink').href = videoLink;
+    }
     clearDraft();
     savedAt = 0;   /* stop the 'Progress saved … ago' timer overwriting the Submitted line */
     form.hidden = true;

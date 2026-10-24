@@ -121,7 +121,7 @@
     <h1>Hire <em>Fractional Legal Talent</em></h1>
     <p>Experienced, video-interviewed counsel, paralegals, contract administrators and legal assistants, by the hour, the week or the month. One invoice. No full-time salary.</p>
     <div class="page-hero-ctas">
-      <a href="#request" class="btn btn-white btn-lg">Request Talent →</a>
+      <a href="#request" class="btn btn-white btn-lg">Place a Job Order →</a>
       <a href="candidates.html" class="btn btn-outline-white btn-lg">Browse Legal Talent</a>
     </div>
   </div>
@@ -260,7 +260,7 @@
     <div class="stack-md" style="display:grid;grid-template-columns:1fr 1.4fr;gap:56px;align-items:start;">
 
       <div>
-        <span class="section-kicker">Request Talent</span>
+        <span class="section-kicker">Job Order</span>
         <h2 class="section-title">Tell Us What You Need</h2>
         <p style="color:var(--text-muted);line-height:1.8;margin-bottom:24px;">We'll follow up within one business day. Prefer to talk it through? Call 404-250-0790 or 678-777-5627.</p>
         <h4 style="font-size:1rem;margin-bottom:4px;">Every engagement includes</h4>
@@ -278,12 +278,165 @@
       </div>
 
       <div class="form-card">
-        <h3 style="margin-bottom:6px;">Request Fractional Talent</h3>
-        <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:28px;">A few details and we'll start matching.</p>
+        <h3 style="margin-bottom:6px;">Place a Job Order</h3>
+        <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:28px;">Tell us what you need, and we'll be back in touch fast.</p>
 
-        <form data-form="lawstaff-counsel-request" novalidate>
-          <input type="hidden" name="i_am" value="Business seeking fractional legal talent">
+        <!-- LAWSTAFF_DOORS_v1: posts to 100X's job-order door (an unlisted draft job + the
+             client into PCR); main.js falls back to the inquiry inbox if that door is down. -->
+        <form data-form="lawstaff-job-order" data-endpoint="/api/public/lawstaff/job-order" novalidate>
           <div class="hp-field" aria-hidden="true"><label>Website<input type="text" name="hp_website" tabindex="-1" autocomplete="off"></label></div>
+          <div class="form-group">
+            <label for="jo-need">What type of legal professional do you need? *</label>
+            <select id="jo-need" name="need" class="form-control" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Attorney</option>
+              <option>Paralegal</option>
+              <option>Legal assistant / secretary</option>
+              <option>Contract administrator</option>
+              <option>Legal ops / compliance</option>
+              <option>More than one type</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jo-engagement">Temp or permanent? *</label>
+              <select id="jo-engagement" name="engagement" class="form-control" required>
+                <option value="" disabled selected>Select one</option>
+                <option>Temp / contract</option>
+                <option>Temp-to-hire</option>
+                <option>Direct hire</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="jo-schedule">Full time or part time? *</label>
+              <select id="jo-schedule" name="schedule" class="form-control" required>
+                <option value="" disabled selected>Select one</option>
+                <option>Full time</option>
+                <option>Part time</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jo-setup">Work location *</label>
+              <select id="jo-setup" name="work_setup" class="form-control" required>
+                <option value="" disabled selected>Select one</option>
+                <option>On site</option>
+                <option>Remote</option>
+                <option>Hybrid</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="jo-state">State *</label>
+              <select id="jo-state" name="location" class="form-control" required>
+                <option value="" disabled selected>Select one</option>
+                <option>Alabama</option>
+                <option>Alaska</option>
+                <option>Arizona</option>
+                <option>Arkansas</option>
+                <option>California</option>
+                <option>Colorado</option>
+                <option>Connecticut</option>
+                <option>Delaware</option>
+                <option>District of Columbia</option>
+                <option>Florida</option>
+                <option>Georgia</option>
+                <option>Hawaii</option>
+                <option>Idaho</option>
+                <option>Illinois</option>
+                <option>Indiana</option>
+                <option>Iowa</option>
+                <option>Kansas</option>
+                <option>Kentucky</option>
+                <option>Louisiana</option>
+                <option>Maine</option>
+                <option>Maryland</option>
+                <option>Massachusetts</option>
+                <option>Michigan</option>
+                <option>Minnesota</option>
+                <option>Mississippi</option>
+                <option>Missouri</option>
+                <option>Montana</option>
+                <option>Nebraska</option>
+                <option>Nevada</option>
+                <option>New Hampshire</option>
+                <option>New Jersey</option>
+                <option>New Mexico</option>
+                <option>New York</option>
+                <option>North Carolina</option>
+                <option>North Dakota</option>
+                <option>Ohio</option>
+                <option>Oklahoma</option>
+                <option>Oregon</option>
+                <option>Pennsylvania</option>
+                <option>Rhode Island</option>
+                <option>South Carolina</option>
+                <option>South Dakota</option>
+                <option>Tennessee</option>
+                <option>Texas</option>
+                <option>Utah</option>
+                <option>Vermont</option>
+                <option>Virginia</option>
+                <option>Washington</option>
+                <option>West Virginia</option>
+                <option>Wisconsin</option>
+                <option>Wyoming</option>
+                <option>Anywhere in the U.S. (remote)</option>
+                <option>Outside the U.S.</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jo-practice">Practice area experience *</label>
+              <input type="text" id="jo-practice" name="practice_area" class="form-control" list="joPracticeList" placeholder="e.g. Insurance defense" required>
+              <datalist id="joPracticeList">
+                <option>Banking &amp; Finance</option>
+                <option>Bankruptcy &amp; Restructuring</option>
+                <option>Commercial Contracts</option>
+                <option>Compliance &amp; Regulatory</option>
+                <option>Construction</option>
+                <option>Corporate / M&amp;A</option>
+                <option>Criminal Defense</option>
+                <option>Employment &amp; Labor</option>
+                <option>Family Law</option>
+                <option>Government Contracts</option>
+                <option>Healthcare</option>
+                <option>Immigration</option>
+                <option>Insurance Defense</option>
+                <option>Intellectual Property</option>
+                <option>Litigation</option>
+                <option>Medical Malpractice</option>
+                <option>Personal Injury</option>
+                <option>Privacy &amp; Data Protection</option>
+                <option>Real Estate</option>
+                <option>Securities</option>
+                <option>Startups &amp; Venture Capital</option>
+                <option>Tax</option>
+                <option>Technology &amp; SaaS</option>
+                <option>Trusts &amp; Estates</option>
+                <option>Workers' Compensation</option>
+              </datalist>
+            </div>
+            <div class="form-group">
+              <label for="jo-years">Years of experience</label>
+              <select id="jo-years" name="years" class="form-control">
+                <option value="">Select one</option>
+                <option>Less than 5 years</option>
+                <option>5 to 10 years</option>
+                <option>More than 10 years</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="jo-details">Tell us about the role</label>
+            <textarea id="jo-details" name="details" class="form-control" placeholder="Hours, start date, the work, your timeline…"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="jo-company">Company or law firm *</label>
+            <input type="text" id="jo-company" name="company" class="form-control" placeholder="Company or firm name" autocomplete="organization" required>
+          </div>
           <div class="form-row">
             <div class="form-group">
               <label for="first-name">First Name *</label>
@@ -294,7 +447,6 @@
               <input type="text" id="last-name" name="last_name" class="form-control" placeholder="Smith" autocomplete="family-name" required>
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label for="email">Work Email *</label>
@@ -305,61 +457,27 @@
               <input type="tel" id="phone" name="phone" class="form-control" placeholder="(404) 555-0100" autocomplete="tel">
             </div>
           </div>
-
-          <div class="form-group">
-            <label for="company">Company *</label>
-            <input type="text" id="company" name="company" class="form-control" placeholder="Company name" autocomplete="organization" required>
-          </div>
-
           <div class="form-row">
             <div class="form-group">
-              <label for="role-title">Who do you need? *</label>
-              <select id="role-title" name="role_title" class="form-control" required>
-                <option value="" disabled selected>Select one</option>
-                <option>Temp: paralegal, legal assistant or support</option>
-                <option>Temp-to-hire</option>
-                <option>Fractional attorney</option>
-                <option>Fractional General Counsel</option>
-                <option>Part-time in-house counsel</option>
-                <option>Project counsel</option>
-                <option>Interim / leave coverage</option>
-                <option>Paralegal</option>
-                <option>Contract administrator</option>
-                <option>Legal assistant</option>
-                <option>Not sure yet</option>
-              </select>
+              <label for="jo-title">Your Title</label>
+              <input type="text" id="jo-title" name="contact_title" class="form-control" placeholder="e.g. Managing Partner" autocomplete="organization-title">
             </div>
             <div class="form-group">
-              <label for="hours">Hours per week</label>
-              <select id="hours" name="hours" class="form-control">
+              <label for="jo-heard">How did you hear about us?</label>
+              <select id="jo-heard" name="heard_from" class="form-control">
                 <option value="">Select one</option>
-                <option>Under 10 hours</option>
-                <option>10–20 hours</option>
-                <option>20–30 hours</option>
-                <option>30+ hours</option>
-                <option>Not sure yet</option>
+                <option>Google</option>
+                <option>LinkedIn</option>
+                <option>A colleague or referral</option>
+                <option>ChatGPT / Claude / AI assistant</option>
+                <option>A LawStaff recruiter</option>
+                <option>Other</option>
               </select>
             </div>
           </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label for="practice-area">Practice area(s)</label>
-              <input type="text" id="practice-area" name="practice_area" class="form-control" placeholder="e.g. commercial contracts, employment">
-            </div>
-            <div class="form-group">
-              <label for="location">Location / jurisdiction</label>
-              <input type="text" id="location" name="location" class="form-control" placeholder="e.g. Georgia, remote OK">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="message">What do you need help with? *</label>
-            <textarea id="message" name="message" class="form-control" placeholder="Tell us about the work, your timeline and anything else that matters…" required></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;padding:15px;">Request Talent</button>
-          <div class="alert alert-success">✓ Request received! We'll be in touch within one business day.</div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;padding:15px;">Place Job Order</button>
+          <div class="alert alert-success">✓ Job order received! We'll be in touch within one business day.</div>
         </form>
       </div>
 
@@ -409,7 +527,7 @@
     <h2>Great Legal Talent,<br>for the Hours You Need</h2>
     <p>Tell us about the work, and we'll send you video-interviewed professionals who fit.</p>
     <div class="cta-actions">
-      <a href="#request" class="btn btn-white btn-lg">Request Talent</a>
+      <a href="#request" class="btn btn-white btn-lg">Place a Job Order</a>
       <a href="tel:+14042500790" class="btn btn-outline-white btn-lg">Call 404-250-0790</a>
     </div>
   </div>
