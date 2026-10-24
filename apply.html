@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
   <link rel="apple-touch-icon" href="img/favicon-180.png">
-  <title>Apply as Fractional Counsel or Legal Talent | LawStaff Group</title>
-  <meta name="description" content="Apply to join LawStaff Group as fractional counsel, a paralegal, a contract administrator or a legal assistant. A short step-by-step application, then your video interview. Free to apply.">
+  <title>Apply to LawStaff Group | Attorneys, Paralegals, Contracts &amp; Legal Support</title>
+  <meta name="description" content="Apply to LawStaff Group for fractional, contract, temp, temp-to-hire and full-time legal roles. Attorneys, paralegals, contracts professionals and legal assistants. Free to apply.">
   <link rel="canonical" href="https://www.lawstaffgroup.net/apply.html">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="LawStaff Group">
-  <meta property="og:title" content="Apply as Fractional Counsel or Legal Talent | LawStaff Group">
-  <meta property="og:description" content="Apply to join LawStaff Group as fractional counsel, a paralegal, a contract administrator or a legal assistant. A short step-by-step application, then your video interview. Free to apply.">
+  <meta property="og:title" content="Apply to LawStaff Group | Attorneys, Paralegals, Contracts &amp; Legal Support">
+  <meta property="og:description" content="Apply to LawStaff Group for fractional, contract, temp, temp-to-hire and full-time legal roles. Free to apply.">
   <meta property="og:url" content="https://www.lawstaffgroup.net/apply.html">
   <meta property="og:image" content="https://www.lawstaffgroup.net/img/lawstaff-logo.png">
   <meta property="og:locale" content="en_US">
@@ -22,10 +22,11 @@
 </head>
 <body class="apply-page">
 
-<!-- FRACTIONAL_COUNSEL_v1 (Gus 10-24): step-by-step application for counsel, paralegals,
-     contract administrators and legal assistants, modeled on the HeyCounsel membership flow.
-     Steps / blocks with data-roles only apply to those roles. Logic + option lists live in
-     js/counsel-apply.js. -->
+<!-- LAWSTAFF_FILE_v1 (Gus 10-24: "we want our own finger prints on this"): the
+     LawStaff application, built as a candidate file with tabs A-G the way a
+     LawStaff recruiter works up a placement. Tabs or blocks with data-roles
+     only show for those roles; data-show-if reveals follow-up questions.
+     Logic and the option lists live in js/lawstaff-application.js. -->
 <header class="apply-header">
   <div class="container">
     <a href="index.html" aria-label="LawStaff Group — home">
@@ -35,408 +36,397 @@
   </div>
 </header>
 
-<main class="apply-wrap">
-  <div class="apply-top">
-    <div>
-      <h1>Join LawStaff Group</h1>
-      <p class="apply-saved" id="applySaved">Takes about 10 minutes · Progress saves on this device</p>
-    </div>
-    <span class="status-pill" id="applyStatus"><svg class="ico" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg> <span id="applyStatusText">In Progress</span></span>
+<main class="lsa">
+  <div class="lsa-intro">
+    <p class="lsa-kicker">Attorneys · Paralegals · Contracts · Legal support</p>
+    <h1>Apply to LawStaff Group</h1>
+    <p class="lsa-lede">Seven short tabs build your LawStaff file. We use it to match you to fractional, contract, temp, temp-to-hire and full-time roles, and we ask you before your profile goes to any client.</p>
   </div>
 
-  <div class="apply-progress-head">
-    <h2>Complete Your Application</h2>
-    <span id="stepCount">Step 1 of 13</span>
-  </div>
-  <div class="apply-progress" role="progressbar" aria-label="Application progress" aria-valuemin="1" aria-valuemax="13" aria-valuenow="1" id="progress">
-    <div class="apply-progress-bar" id="progressBar"></div>
-  </div>
+  <div class="lsa-layout">
+    <aside class="lsa-index" aria-label="Your application">
+      <p class="lsa-index-title">Your file</p>
+      <ol class="lsa-tabs" id="lsaTabs"></ol>
+      <p class="lsa-saved" id="lsaSaved">Answers save on this device as you go.</p>
+    </aside>
 
-  <form class="apply-card" id="applyForm" novalidate>
-    <div class="hp-field" aria-hidden="true"><label>Website<input type="text" name="hp_website" tabindex="-1" autocomplete="off"></label></div>
+    <div class="lsa-main">
+      <form class="lsa-sheet" id="lsaForm" novalidate>
+        <div class="hp-field" aria-hidden="true"><label>Website<input type="text" name="hp_website" tabindex="-1" autocomplete="off"></label></div>
 
-    <!-- Role: decides which steps apply (data-roles) -->
-    <fieldset class="apply-step">
-      <h3 tabindex="-1">What role are you applying for?</h3>
-      <p class="step-hint">We place attorneys and legal professionals on fractional and part-time engagements.</p>
-      <div class="choice-list" data-group="role" data-min="1" data-label="Applying as" data-msg="Choose the role you're applying for." role="radiogroup" aria-label="Role">
-        <label class="choice"><input type="radio" name="role" value="Attorney / Counsel"> <span><strong>Attorney / Counsel</strong><small>Fractional GC, part-time in-house, project or interim counsel</small></span></label>
-        <label class="choice"><input type="radio" name="role" value="Paralegal"> <span><strong>Paralegal</strong><small>Litigation, corporate, real estate, compliance and more</small></span></label>
-        <label class="choice"><input type="radio" name="role" value="Contract Administrator / Manager"> <span><strong>Contract Administrator / Manager</strong><small>Intake, tracking, renewals and contract operations</small></span></label>
-        <label class="choice"><input type="radio" name="role" value="Legal Assistant"> <span><strong>Legal Assistant</strong><small>Calendaring, filings, document management and admin support</small></span></label>
-      </div>
-    </fieldset>
+        <!-- A · Role -->
+        <section class="lsa-tab" data-title="Role">
+          <header class="lsa-tab-head">
+            <span class="lsa-letter" aria-hidden="true">A</span>
+            <div><h2 tabindex="-1">Role</h2><p>What you do, and how you'd like to work.</p></div>
+          </header>
+          <fieldset class="lsa-q" data-min="1" data-label="Applying as" data-msg="Pick the role you're applying for.">
+            <legend>Which describes you best?</legend>
+            <div class="lsa-cards">
+              <label class="lsa-opt lsa-opt--card"><input type="radio" name="role" value="Attorney"><span><b>Attorney</b><small>In-house, outside GC, firm or government experience</small></span></label>
+              <label class="lsa-opt lsa-opt--card"><input type="radio" name="role" value="Paralegal"><span><b>Paralegal</b><small>Litigation, corporate, real estate, IP and more</small></span></label>
+              <label class="lsa-opt lsa-opt--card"><input type="radio" name="role" value="Contracts Professional"><span><b>Contracts professional</b><small>Contract administrator, analyst or manager</small></span></label>
+              <label class="lsa-opt lsa-opt--card"><input type="radio" name="role" value="Legal Assistant"><span><b>Legal assistant</b><small>Legal secretary, docketing, filings and calendars</small></span></label>
+            </div>
+          </fieldset>
+          <fieldset class="lsa-q" data-min="1" data-label="Open to" data-msg="Pick at least one way you'd like to work.">
+            <legend>How would you like to work? <span class="lsa-hint">Pick all that fit.</span></legend>
+            <div class="lsa-grid">
+              <label class="lsa-opt"><input type="checkbox" name="work_types" value="Fractional"><span>Fractional <small>a set number of hours a month</small></span></label>
+              <label class="lsa-opt"><input type="checkbox" name="work_types" value="Part-time"><span>Part-time <small>steady weekly hours</small></span></label>
+              <label class="lsa-opt"><input type="checkbox" name="work_types" value="Contract or project"><span>Contract or project <small>a defined matter or deadline</small></span></label>
+              <label class="lsa-opt"><input type="checkbox" name="work_types" value="Temp or leave coverage"><span>Temp or leave coverage <small>days to months</small></span></label>
+              <label class="lsa-opt"><input type="checkbox" name="work_types" value="Temp-to-hire"><span>Temp-to-hire <small>start on contract, convert if it fits</small></span></label>
+              <label class="lsa-opt"><input type="checkbox" name="work_types" value="Full-time (direct hire)"><span>Full-time <small>a permanent, direct-hire role</small></span></label>
+            </div>
+          </fieldset>
+        </section>
 
-    <!-- 1 -->
-    <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">What's your name?</h3>
-      <p class="step-hint">As you'd like it to appear on your profile.</p>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="a-first">First Name</label>
-          <input type="text" id="a-first" name="first_name" class="form-control" placeholder="Enter your first name" autocomplete="given-name" required data-label="First name">
-        </div>
-        <div class="form-group">
-          <label for="a-last">Last Name</label>
-          <input type="text" id="a-last" name="last_name" class="form-control" placeholder="Enter your last name" autocomplete="family-name" required data-label="Last name">
-        </div>
-      </div>
-    </fieldset>
-
-    <!-- 2 -->
-    <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">How can we reach you?</h3>
-      <p class="step-hint">We'll send your video interview link to this email.</p>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="a-email">Email</label>
-          <input type="email" id="a-email" name="email" class="form-control" placeholder="you@example.com" autocomplete="email" required data-label="Email">
-        </div>
-        <div class="form-group">
-          <label for="a-phone">Phone (optional)</label>
-          <input type="tel" id="a-phone" name="phone" class="form-control" placeholder="(404) 555-0100" autocomplete="tel" data-label="Phone">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="a-city">City</label>
-          <input type="text" id="a-city" name="city" class="form-control" placeholder="Atlanta" autocomplete="address-level2" required data-label="City">
-        </div>
-        <div class="form-group">
-          <label for="a-region">State / Province (optional)</label>
-          <input type="text" id="a-region" name="region" class="form-control" placeholder="GA" autocomplete="address-level1" data-label="State / province">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="a-country">Country</label>
-        <input type="text" id="a-country" name="country" class="form-control" placeholder="United States" list="countryList" autocomplete="country-name" required data-label="Country">
-        <datalist id="countryList"></datalist>
-      </div>
-    </fieldset>
-
-    <!-- 3 -->
-    <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">What's drawing you to fractional work?</h3>
-      <p class="step-hint">Select up to three that resonate the most.</p>
-      <span class="choice-count" data-count-for="drawn">0 of 3 selected</span>
-      <div class="choice-grid" data-group="drawn" data-min="1" data-max="3" data-label="Drawn to fractional work by" data-msg="Choose at least one.">
-        <label class="choice"><input type="checkbox" name="drawn" value="Steady work with growing companies"> Steady work with growing companies</label>
-        <label class="choice"><input type="checkbox" name="drawn" value="Control over my hours and schedule"> Control over my hours and schedule</label>
-        <label class="choice"><input type="checkbox" name="drawn" value="Billing and payroll handled for me"> Billing and payroll handled for me</label>
-        <label class="choice"><input type="checkbox" name="drawn" value="Leaving the billable-hour model"> Leaving the billable-hour model</label>
-        <label class="choice"><input type="checkbox" name="drawn" value="Building a portfolio of clients"> Building a portfolio of clients</label>
-        <label class="choice"><input type="checkbox" name="drawn" value="Working remotely"> Working remotely</label>
-        <label class="choice"><input type="checkbox" name="drawn" value="Supplementing my own practice"> Supplementing my own practice</label>
-        <label class="choice"><input type="checkbox" name="drawn" value="Other"> Other</label>
-      </div>
-    </fieldset>
-
-    <!-- 4 -->
-    <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">Education</h3>
-      <p class="step-hint">Your education and credentials.</p>
-      <div data-roles="attorney">
-        <div class="form-group">
-          <label for="a-school">Law School</label>
-          <input type="text" id="a-school" name="law_school" class="form-control" placeholder="e.g. Emory University School of Law" required data-label="Law school">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="a-jdyear">Graduation Year (optional)</label>
-            <input type="number" id="a-jdyear" name="jd_year" class="form-control" placeholder="2012" min="1950" max="2030" step="1" inputmode="numeric" data-label="Graduation year">
+        <!-- B · Contact -->
+        <section class="lsa-tab" data-title="Contact" hidden>
+          <header class="lsa-tab-head">
+            <span class="lsa-letter" aria-hidden="true">B</span>
+            <div><h2 tabindex="-1">Contact</h2><p>How we reach you to set up your video interview.</p></div>
+          </header>
+          <div class="lsa-row">
+            <div class="lsa-field"><label for="f-first">First name</label><input type="text" id="f-first" name="first_name" class="form-control" autocomplete="given-name" required data-label="First name"></div>
+            <div class="lsa-field"><label for="f-last">Last name</label><input type="text" id="f-last" name="last_name" class="form-control" autocomplete="family-name" required data-label="Last name"></div>
           </div>
-          <div class="form-group">
-            <label for="a-degrees">Other Degrees (optional)</label>
-            <input type="text" id="a-degrees" name="other_degrees" class="form-control" placeholder="e.g. LL.M. in Taxation, MBA" data-label="Other degrees">
+          <div class="lsa-row">
+            <div class="lsa-field"><label for="f-email">Email</label><input type="email" id="f-email" name="email" class="form-control" autocomplete="email" required pattern="[^@\s]+@[^@\s]+\.[^@\s]+" data-label="Email" data-msg="Please enter a full email address, like name@firm.com."></div>
+            <div class="lsa-field"><label for="f-phone">Mobile phone</label><input type="tel" id="f-phone" name="phone" class="form-control" autocomplete="tel" required data-label="Phone" data-msg="Please add a phone number so a recruiter can reach you."></div>
           </div>
+          <div class="lsa-row">
+            <div class="lsa-field"><label for="f-city">City you live in</label><input type="text" id="f-city" name="city" class="form-control" autocomplete="address-level2" required data-label="City"></div>
+            <div class="lsa-field"><label for="f-state">State</label><select id="f-state" name="state" class="form-control" required data-label="State" data-msg="Pick the state you live in."><option value="">Choose…</option></select></div>
+          </div>
+        </section>
+
+        <!-- C · Credentials -->
+        <section class="lsa-tab" data-title="Credentials" hidden>
+          <header class="lsa-tab-head">
+            <span class="lsa-letter" aria-hidden="true">C</span>
+            <div><h2 tabindex="-1">Credentials</h2><p>Licenses, schooling and certifications.</p></div>
+          </header>
+
+          <div data-roles="attorney">
+            <div class="lsa-row">
+              <div class="lsa-field"><label for="f-school">Law school</label><input type="text" id="f-school" name="law_school" class="form-control" required data-label="Law school"></div>
+              <div class="lsa-field lsa-field--narrow"><label for="f-jd">J.D. year</label><input type="number" id="f-jd" name="jd_year" class="form-control" min="1955" max="2030" step="1" inputmode="numeric" required data-label="J.D. year" data-msg="Add your J.D. year, like 2012."></div>
+            </div>
+            <fieldset class="lsa-q" data-min="1" data-label="Licensed in" data-msg="Tap each state where you hold a law license.">
+              <legend>Where are you licensed to practice? <span class="lsa-hint">Tap every state that applies.</span></legend>
+              <div class="lsa-states" id="stateChips"></div>
+            </fieldset>
+            <div class="lsa-field"><label for="f-otherbar">Licensed anywhere else? <span class="lsa-opt-tag">optional</span></label><input type="text" id="f-otherbar" name="other_licenses" class="form-control" placeholder="Territories, other countries, federal courts" data-label="Other licenses"></div>
+            <fieldset class="lsa-q" data-min="1" data-label="Licenses in good standing" data-msg="Let us know whether every license is active.">
+              <legend>Is every license active and in good standing?</legend>
+              <div class="lsa-inline">
+                <label class="lsa-opt"><input type="radio" name="standing" value="Yes"><span>Yes</span></label>
+                <label class="lsa-opt"><input type="radio" name="standing" value="Not all"><span>Not all of them</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="lsa-q" data-min="1" data-label="Public discipline" data-msg="Please answer the discipline question.">
+              <legend>Have you ever been publicly disciplined by a bar or court?</legend>
+              <div class="lsa-inline">
+                <label class="lsa-opt"><input type="radio" name="discipline" value="No"><span>No</span></label>
+                <label class="lsa-opt"><input type="radio" name="discipline" value="Yes"><span>Yes</span></label>
+              </div>
+            </fieldset>
+            <div class="lsa-field" data-show-if="standing=Not all|discipline=Yes">
+              <label for="f-explain">Tell us what happened</label>
+              <textarea id="f-explain" name="license_notes" class="form-control" maxlength="800" required data-label="License notes" data-msg="A sentence or two on the license or discipline answer, please."></textarea>
+            </div>
+          </div>
+
+          <div data-roles="paralegal contracts assistant" hidden>
+            <div class="lsa-field">
+              <label for="f-degree">Highest education</label>
+              <select id="f-degree" name="education" class="form-control" required data-label="Education" data-msg="Pick your highest education.">
+                <option value="">Choose…</option>
+                <option>High school or GED</option>
+                <option>Some college</option>
+                <option>Associate degree</option>
+                <option>Bachelor's degree</option>
+                <option>Master's degree</option>
+                <option>J.D.</option>
+              </select>
+            </div>
+          </div>
+
+          <div data-roles="paralegal" hidden>
+            <fieldset class="lsa-q" data-label="Paralegal training">
+              <legend>Paralegal training</legend>
+              <div class="lsa-grid">
+                <label class="lsa-opt"><input type="radio" name="para_training" value="ABA-approved certificate"><span>ABA-approved certificate</span></label>
+                <label class="lsa-opt"><input type="radio" name="para_training" value="Other paralegal certificate"><span>Another paralegal certificate</span></label>
+                <label class="lsa-opt"><input type="radio" name="para_training" value="Paralegal degree"><span>Degree in paralegal studies</span></label>
+                <label class="lsa-opt"><input type="radio" name="para_training" value="Trained on the job"><span>Trained on the job</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="lsa-q" data-label="Certifications">
+              <legend>Certifications <span class="lsa-opt-tag">optional</span></legend>
+              <div class="lsa-grid">
+                <label class="lsa-opt"><input type="checkbox" name="para_certs" value="NALA CP"><span>NALA Certified Paralegal (CP)</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_certs" value="NALA ACP"><span>NALA Advanced (ACP)</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_certs" value="NFPA RP"><span>NFPA Registered Paralegal (RP)</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_certs" value="NALS PP"><span>NALS Professional Paralegal (PP)</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_certs" value="State certification"><span>State certification (CA, TX, FL…)</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_certs" value="Notary public"><span>Notary public</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="lsa-q" data-label="Tools">
+              <legend>Tools you use well <span class="lsa-opt-tag">optional</span></legend>
+              <div class="lsa-grid lsa-grid--3">
+                <label class="lsa-opt"><input type="checkbox" name="para_tools" value="Relativity"><span>Relativity</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_tools" value="Westlaw"><span>Westlaw</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_tools" value="Lexis"><span>Lexis</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_tools" value="Clio"><span>Clio</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_tools" value="iManage"><span>iManage</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_tools" value="NetDocuments"><span>NetDocuments</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_tools" value="CaseMap"><span>CaseMap</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_tools" value="Court e-filing"><span>Court e-filing</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="para_tools" value="Entity management (CSC, Diligent)"><span>Entity management</span></label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div data-roles="contracts" hidden>
+            <fieldset class="lsa-q" data-label="Certifications">
+              <legend>Certifications <span class="lsa-opt-tag">optional</span></legend>
+              <div class="lsa-grid">
+                <label class="lsa-opt"><input type="checkbox" name="contract_certs" value="WorldCC certification"><span>WorldCC (formerly IACCM)</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="contract_certs" value="NCMA (CPCM / CFCM / CCCM)"><span>NCMA: CPCM, CFCM or CCCM</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="contract_certs" value="CPSM"><span>ISM CPSM</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="contract_certs" value="Paralegal certificate"><span>Paralegal certificate</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="lsa-q" data-label="Contract platforms">
+              <legend>Contract platforms you've run <span class="lsa-opt-tag">optional</span></legend>
+              <div class="lsa-grid lsa-grid--3">
+                <label class="lsa-opt"><input type="checkbox" name="clm_tools" value="Ironclad"><span>Ironclad</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="clm_tools" value="Icertis"><span>Icertis</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="clm_tools" value="Agiloft"><span>Agiloft</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="clm_tools" value="DocuSign CLM"><span>DocuSign CLM</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="clm_tools" value="Conga"><span>Conga</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="clm_tools" value="Sirion"><span>Sirion</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="clm_tools" value="Salesforce"><span>Salesforce</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="clm_tools" value="SAP Ariba"><span>SAP Ariba</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="clm_tools" value="Coupa"><span>Coupa</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="clm_tools" value="Spreadsheet / SharePoint tracking"><span>Spreadsheet tracking</span></label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div data-roles="assistant" hidden>
+            <fieldset class="lsa-q" data-label="Tools">
+              <legend>Tools you use well <span class="lsa-opt-tag">optional</span></legend>
+              <div class="lsa-grid">
+                <label class="lsa-opt"><input type="checkbox" name="assist_tools" value="Court e-filing (PACER / CM-ECF, state)"><span>Court e-filing (PACER, state systems)</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="assist_tools" value="Docketing (CompuLaw, CourtAlert)"><span>Docketing: CompuLaw, CourtAlert</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="assist_tools" value="Time & billing (Aderant, Elite, Clio)"><span>Time &amp; billing: Aderant, Elite, Clio</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="assist_tools" value="Document management (iManage, NetDocuments)"><span>iManage or NetDocuments</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="assist_tools" value="Advanced Word (pleadings, redlines)"><span>Advanced Word: pleadings, redlines</span></label>
+                <label class="lsa-opt"><input type="checkbox" name="assist_tools" value="Calendar management for several attorneys"><span>Calendars for several attorneys</span></label>
+              </div>
+            </fieldset>
+          </div>
+        </section>
+
+        <!-- D · Experience -->
+        <section class="lsa-tab" data-title="Experience" hidden>
+          <header class="lsa-tab-head">
+            <span class="lsa-letter" aria-hidden="true">D</span>
+            <div><h2 tabindex="-1">Experience</h2><p>Your recent work and the areas you know.</p></div>
+          </header>
+          <div class="lsa-row">
+            <div class="lsa-field"><label for="f-title">Most recent title</label><input type="text" id="f-title" name="job_title" class="form-control" autocomplete="organization-title" required data-label="Most recent title"></div>
+            <div class="lsa-field"><label for="f-org">Employer</label><input type="text" id="f-org" name="employer" class="form-control" autocomplete="organization" required data-label="Employer"></div>
+          </div>
+          <p class="lsa-note">We never reach out to your current employer.</p>
+          <div class="lsa-field">
+            <label for="f-years">Years doing this kind of work</label>
+            <select id="f-years" name="years" class="form-control" required data-label="Years of experience" data-msg="Pick your years of experience.">
+              <option value="">Choose…</option>
+              <option>Under 2</option>
+              <option>2 to 4</option>
+              <option>5 to 9</option>
+              <option>10 to 14</option>
+              <option>15 to 19</option>
+              <option>20 or more</option>
+            </select>
+          </div>
+          <fieldset class="lsa-q" data-min="1" data-label="Settings" data-msg="Pick at least one place you've worked.">
+            <legend>Where have you worked? <span class="lsa-hint">Pick all that fit.</span></legend>
+            <div class="lsa-grid">
+              <label class="lsa-opt"><input type="checkbox" name="settings" value="Large law firm"><span>Large law firm <small>100+ lawyers</small></span></label>
+              <label class="lsa-opt"><input type="checkbox" name="settings" value="Small or mid-size firm"><span>Small or mid-size firm</span></label>
+              <label class="lsa-opt"><input type="checkbox" name="settings" value="In-house legal team"><span>In-house legal team</span></label>
+              <label class="lsa-opt"><input type="checkbox" name="settings" value="Government or courts"><span>Government or courts</span></label>
+              <label class="lsa-opt"><input type="checkbox" name="settings" value="Nonprofit"><span>Nonprofit</span></label>
+              <label class="lsa-opt"><input type="checkbox" name="settings" value="Solo practice"><span>Solo practice</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="lsa-q lsa-areas" data-min="1" data-max="5" data-label="Practice areas" data-msg="Pick at least one practice area.">
+            <legend>Practice areas <span class="lsa-hint">Up to five you work in now.</span> <span class="lsa-count" id="areaCount">0 of 5</span></legend>
+            <input type="search" class="form-control lsa-find" id="areaFind" placeholder="Type to find an area, like “wage” or “zoning”" aria-label="Find a practice area" autocomplete="off">
+            <div id="areaGroups"></div>
+          </fieldset>
+          <div class="lsa-field"><label for="f-otherarea">Another area we didn't list <span class="lsa-opt-tag">optional</span></label><input type="text" id="f-otherarea" name="other_area" class="form-control" data-label="Other practice area"></div>
+          <div class="lsa-field">
+            <label for="f-win">Your best recent work, in a few lines</label>
+            <textarea id="f-win" name="best_work" class="form-control" maxlength="1200" data-min="40" required data-label="Best recent work" data-msg="A few lines about your best recent work, please (40 characters or more)." placeholder="What you handled, for whom, and how it turned out."></textarea>
+            <p class="lsa-note" data-counter-for="f-win"></p>
+          </div>
+        </section>
+
+        <!-- E · Schedule & pay -->
+        <section class="lsa-tab" data-title="Schedule &amp; pay" hidden>
+          <header class="lsa-tab-head">
+            <span class="lsa-letter" aria-hidden="true">E</span>
+            <div><h2 tabindex="-1">Schedule &amp; pay</h2><p>When, where and for how much.</p></div>
+          </header>
+          <div class="lsa-row">
+            <div class="lsa-field">
+              <label for="f-hours">Hours you can give each week</label>
+              <select id="f-hours" name="hours" class="form-control" required data-label="Hours per week" data-msg="Pick how many hours you can give each week.">
+                <option value="">Choose…</option>
+                <option>Under 10</option>
+                <option>10 to 20</option>
+                <option>20 to 30</option>
+                <option>30 to 40</option>
+                <option>Full time</option>
+              </select>
+            </div>
+            <div class="lsa-field">
+              <label for="f-start">You could start</label>
+              <select id="f-start" name="start" class="form-control" required data-label="Could start" data-msg="Pick when you could start.">
+                <option value="">Choose…</option>
+                <option>This week</option>
+                <option>Within 2 weeks</option>
+                <option>Within a month</option>
+                <option>More than a month out</option>
+              </select>
+            </div>
+          </div>
+          <fieldset class="lsa-q" data-min="1" data-label="Work setting" data-msg="Pick remote, hybrid or on-site.">
+            <legend>Where you'll work <span class="lsa-hint">Pick all that fit.</span></legend>
+            <div class="lsa-inline">
+              <label class="lsa-opt"><input type="checkbox" name="setting" value="Remote"><span>Remote</span></label>
+              <label class="lsa-opt"><input type="checkbox" name="setting" value="Hybrid"><span>Hybrid</span></label>
+              <label class="lsa-opt"><input type="checkbox" name="setting" value="On-site"><span>On-site</span></label>
+            </div>
+          </fieldset>
+          <div class="lsa-field" data-show-if="setting=Hybrid|setting=On-site">
+            <label for="f-commute">Longest commute you'd take</label>
+            <select id="f-commute" name="commute" class="form-control" required data-label="Commute" data-msg="Pick the longest commute you'd take.">
+              <option value="">Choose…</option>
+              <option>Up to 15 miles</option>
+              <option>Up to 30 miles</option>
+              <option>Up to 50 miles</option>
+              <option>Open to relocating</option>
+            </select>
+          </div>
+          <div class="lsa-row">
+            <div class="lsa-field" data-show-if="work_types=Fractional|work_types=Part-time|work_types=Contract or project|work_types=Temp or leave coverage|work_types=Temp-to-hire">
+              <label for="f-rate">Hourly pay you're looking for</label>
+              <div class="lsa-money"><span aria-hidden="true">$</span><input type="number" id="f-rate" name="hourly" class="form-control" min="15" step="1" inputmode="numeric" required data-label="Hourly pay" data-msg="Add the hourly pay you're looking for." data-format="$% an hour"><span aria-hidden="true" class="lsa-unit">/ hr</span></div>
+            </div>
+            <div class="lsa-field" data-show-if="work_types=Full-time (direct hire)|work_types=Temp-to-hire">
+              <label for="f-salary">Yearly salary you're looking for</label>
+              <div class="lsa-money"><span aria-hidden="true">$</span><input type="number" id="f-salary" name="salary" class="form-control" min="20000" step="1" inputmode="numeric" required data-label="Salary" data-msg="Add the yearly salary you're looking for." data-format="$% a year"><span aria-hidden="true" class="lsa-unit">/ yr</span></div>
+            </div>
+          </div>
+          <p class="lsa-note">Your pay stays between you and your recruiter until you approve a client submission.</p>
+          <fieldset class="lsa-q" data-min="1" data-label="US work authorization" data-msg="Please answer the work authorization question.">
+            <legend>Can you work in the US without a visa sponsor, now and later?</legend>
+            <div class="lsa-inline">
+              <label class="lsa-opt"><input type="radio" name="authorized" value="Yes"><span>Yes</span></label>
+              <label class="lsa-opt"><input type="radio" name="authorized" value="No, I'd need sponsorship"><span>No, I'd need sponsorship</span></label>
+            </div>
+          </fieldset>
+          <div class="lsa-field">
+            <label for="f-avoid">Anyone we shouldn't send your profile to? <span class="lsa-opt-tag">optional</span></label>
+            <input type="text" id="f-avoid" name="do_not_submit" class="form-control" placeholder="Your current employer, a former client…" data-label="Don't submit to">
+          </div>
+        </section>
+
+        <!-- F · Résumé & interview -->
+        <section class="lsa-tab" data-title="Résumé &amp; interview" hidden>
+          <header class="lsa-tab-head">
+            <span class="lsa-letter" aria-hidden="true">F</span>
+            <div><h2 tabindex="-1">Résumé &amp; interview</h2><p>Your next step after this is a short recorded video interview.</p></div>
+          </header>
+          <div class="lsa-field">
+            <label for="f-li">LinkedIn <span class="lsa-opt-tag">optional</span></label>
+            <input type="text" id="f-li" name="linkedin" class="form-control" placeholder="linkedin.com/in/your-name" inputmode="url" data-linkedin data-label="LinkedIn">
+          </div>
+          <div class="lsa-field">
+            <label for="f-cv">Link to your résumé <span class="lsa-opt-tag">optional</span></label>
+            <input type="text" id="f-cv" name="resume_link" class="form-control" placeholder="A Google Drive, Dropbox or OneDrive share link" inputmode="url" data-url data-label="Résumé link">
+            <p class="lsa-note">No link handy? Reply to our confirmation email with your résumé attached.</p>
+          </div>
+          <fieldset class="lsa-q" data-min="1" data-label="Best interview times" data-msg="Pick at least one time that works for your video interview.">
+            <legend>When could you record your video interview? <span class="lsa-hint">Pick all that work.</span></legend>
+            <div class="lsa-grid lsa-grid--3">
+              <label class="lsa-opt"><input type="checkbox" name="interview_times" value="Weekday mornings"><span>Weekday mornings</span></label>
+              <label class="lsa-opt"><input type="checkbox" name="interview_times" value="Weekday afternoons"><span>Weekday afternoons</span></label>
+              <label class="lsa-opt"><input type="checkbox" name="interview_times" value="Weekday evenings"><span>Weekday evenings</span></label>
+              <label class="lsa-opt"><input type="checkbox" name="interview_times" value="Weekends"><span>Weekends</span></label>
+              <label class="lsa-opt"><input type="checkbox" name="interview_times" value="Any time"><span>Any time</span></label>
+            </div>
+          </fieldset>
+          <div class="lsa-field">
+            <label for="f-heard">How did you find LawStaff? <span class="lsa-opt-tag">optional</span></label>
+            <select id="f-heard" name="heard_from" class="form-control" data-label="Found us through">
+              <option value="">Choose…</option>
+              <option>A LawStaff recruiter reached out</option>
+              <option>A colleague or friend</option>
+              <option>LinkedIn</option>
+              <option>A job board</option>
+              <option>Google search</option>
+              <option>An AI assistant</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- G · Review & send -->
+        <section class="lsa-tab" data-title="Review &amp; send" hidden>
+          <header class="lsa-tab-head">
+            <span class="lsa-letter" aria-hidden="true">G</span>
+            <div><h2 tabindex="-1">Review &amp; send</h2><p>Here's your file. Use "Change" to fix anything.</p></div>
+          </header>
+          <div class="lsa-review" id="lsaReview"></div>
+          <label class="lsa-opt lsa-consent"><input type="checkbox" name="consent" value="Yes" required data-label="Consent" data-on="Confirmed" data-msg="Please check the box to send your application."><span>My answers are true. LawStaff may check my references (and, for attorneys, my license status), and will ask me before sending my profile to any client.</span></label>
+          <p class="lsa-note">Free to apply.</p>
+        </section>
+
+        <p class="lsa-error" id="lsaError" role="alert"></p>
+        <div class="lsa-actions">
+          <button type="button" class="lsa-back" id="lsaBack"><svg class="ico" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Back</button>
+          <button type="submit" class="btn btn-navy" id="lsaNext">Save &amp; continue</button>
         </div>
-      </div>
-      <div data-roles="paralegal contracts assistant" hidden>
-        <div class="form-group">
-          <label for="a-edu">Highest Degree or Program</label>
-          <input type="text" id="a-edu" name="education" class="form-control" placeholder="e.g. B.A., Georgia State University; ABA-approved paralegal certificate" required data-label="Education">
-        </div>
-        <div class="form-group">
-          <label for="a-certs">Certifications (optional)</label>
-          <input type="text" id="a-certs" name="certifications" class="form-control" placeholder="e.g. NALA Certified Paralegal, NFPA RP, NCMA CCCM, notary" data-label="Certifications">
-        </div>
-      </div>
-    </fieldset>
+      </form>
 
-    <!-- 5 -->
-    <fieldset class="apply-step" hidden data-roles="attorney">
-      <h3 tabindex="-1">Bar Jurisdictions</h3>
-      <p class="step-hint">Select every jurisdiction where you're admitted. Start typing to search.</p>
-      <div class="combo" id="barCombo" data-options="jurisdictions" data-min="1" data-msg="Select at least one jurisdiction where you're admitted.">
-        <input type="text" class="form-control combo-input" placeholder="Search and select jurisdictions…" role="combobox" aria-label="Search bar jurisdictions" aria-expanded="false" aria-controls="barComboList" aria-autocomplete="list" autocomplete="off">
-        <svg class="ico combo-caret" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        <ul class="combo-list" id="barComboList" role="listbox" aria-multiselectable="true" aria-label="Jurisdictions" hidden></ul>
-        <input type="hidden" name="bar_admissions" data-label="Bar admissions">
-      </div>
-      <div class="combo-chips" id="barComboChips" aria-live="polite"></div>
-      <p class="field-note">Not listed? Type it and choose "Add".</p>
-    </fieldset>
-
-    <!-- 6 -->
-    <fieldset class="apply-step" hidden data-roles="attorney">
-      <h3 tabindex="-1">Professional Standing</h3>
-      <p class="step-hint">We confirm bar standing for every lawyer on the platform.</p>
-      <p class="field-q" id="q-active">Are all of your bar admissions active and in good standing?</p>
-      <div class="choice-list" data-group="admissions_active" data-min="1" data-label="Admissions active" data-msg="Please answer whether your admissions are active." role="radiogroup" aria-labelledby="q-active">
-        <label class="choice"><input type="radio" name="admissions_active" value="Yes, all active and in good standing"> Yes, all active and in good standing</label>
-        <label class="choice"><input type="radio" name="admissions_active" value="Some admissions are inactive or retired"> Some admissions are inactive or retired</label>
-      </div>
-      <p class="field-q" id="q-discipline">Have you ever been subject to disciplinary action by any bar or licensing authority?</p>
-      <div class="choice-list" data-group="discipline" data-min="1" data-label="Disciplinary history" data-msg="Please answer the disciplinary history question." role="radiogroup" aria-labelledby="q-discipline">
-        <label class="choice"><input type="radio" name="discipline" value="None"> No, I have never been subject to disciplinary action</label>
-        <label class="choice"><input type="radio" name="discipline" value="Yes (see details)"> Yes, I have been subject to disciplinary action</label>
-      </div>
-      <div class="form-group" id="disciplineDetails" hidden>
-        <label for="a-discipline">Please explain briefly</label>
-        <textarea id="a-discipline" name="discipline_details" class="form-control" maxlength="1000" placeholder="Jurisdiction, year and outcome" data-label="Disciplinary details" data-msg="Please briefly explain the disciplinary action."></textarea>
-      </div>
-    </fieldset>
-
-    <!-- 7 -->
-    <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">Practice Areas</h3>
-      <p class="step-hint">Choose up to seven practice areas you work in. Start typing to search.</p>
-      <span class="choice-count" data-count-for="practiceCombo">0 of 7 selected</span>
-      <div class="combo" id="practiceCombo" data-options="practice" data-min="1" data-max="7" data-msg="Select at least one practice area.">
-        <input type="text" class="form-control combo-input" placeholder="Search and select practice areas…" role="combobox" aria-label="Search practice areas" aria-expanded="false" aria-controls="practiceComboList" aria-autocomplete="list" autocomplete="off">
-        <svg class="ico combo-caret" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        <ul class="combo-list" id="practiceComboList" role="listbox" aria-multiselectable="true" aria-label="Practice areas" hidden></ul>
-        <input type="hidden" name="practice_areas" data-label="Practice areas">
-      </div>
-      <div class="combo-chips" id="practiceComboChips" aria-live="polite"></div>
-      <p class="field-note">Not listed? Type it and choose "Add".</p>
-    </fieldset>
-
-    <!-- 8 -->
-    <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">Current Role</h3>
-      <p class="step-hint">Tell us about your current or most recent position and your work.</p>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="a-title">Job Title</label>
-          <input type="text" id="a-title" name="job_title" class="form-control" placeholder="e.g. General Counsel, Senior Paralegal, Contracts Manager" autocomplete="organization-title" required data-label="Job title">
-        </div>
-        <div class="form-group">
-          <label for="a-org">Organization / Firm</label>
-          <input type="text" id="a-org" name="organization" class="form-control" placeholder="e.g. Smith Law PLLC, Acme Corp." autocomplete="organization" required data-label="Organization">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="a-site">Website (optional)</label>
-        <input type="text" id="a-site" name="website" class="form-control" placeholder="www.yourfirm.com" inputmode="url" data-url data-label="Website">
-        <p class="field-note">Your own site or your firm's.</p>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="a-years">Years in Practice</label>
-          <select id="a-years" name="years_practice" class="form-control" required data-label="Years in practice">
-            <option value="" disabled selected>Select one</option>
-            <option>Under 3 years</option>
-            <option>3–5 years</option>
-            <option>6–10 years</option>
-            <option>11–15 years</option>
-            <option>16–20 years</option>
-            <option>20+ years</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="a-inhouse">In-House Experience</label>
-          <select id="a-inhouse" name="inhouse_years" class="form-control" required data-label="In-house experience">
-            <option value="" disabled selected>Select one</option>
-            <option>None</option>
-            <option>Under 2 years</option>
-            <option>2–5 years</option>
-            <option>6–10 years</option>
-            <option>10+ years</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="a-practice">Describe your current work</label>
-        <textarea id="a-practice" name="practice_description" class="form-control" maxlength="2000" data-min="50" placeholder="The clients or teams you support, the work you do most and what you're known for…" required data-label="Work description" data-msg="Please describe your current work (at least 50 characters)." style="min-height:140px;"></textarea>
-        <p class="field-note" data-counter-for="a-practice">0 / 2000 characters (minimum 50)</p>
-      </div>
-    </fieldset>
-
-    <!-- 9 -->
-    <fieldset class="apply-step" hidden data-optional>
-      <div class="step-head">
-        <h3 tabindex="-1">Personal Introduction</h3>
-        <span class="step-optional">Optional</span>
-      </div>
-      <p class="step-hint">Clients hire people, not résumés. Share what you're like outside the office: interests, background, what makes you, you.</p>
-      <div class="form-group">
-        <label for="a-intro" class="sr-only">Personal introduction</label>
-        <textarea id="a-intro" name="intro" class="form-control" maxlength="1000" placeholder="I coach my daughter's soccer team, I've run four marathons, and I started my career as a startup founder before law school…" data-label="Personal introduction" style="min-height:130px;"></textarea>
-        <p class="field-note" data-counter-for="a-intro">0 / 1000 characters</p>
-      </div>
-      <div class="example-callout" style="margin-top:6px;padding:16px 18px;box-shadow:none;">
-        <p style="font-size:.86rem;"><strong style="color:var(--ink);">Privacy note:</strong> we share your introduction only with clients considering you for an engagement. It is never published publicly.</p>
-      </div>
-    </fieldset>
-
-    <!-- 10 -->
-    <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">Engagements &amp; Industries</h3>
-      <p class="step-hint">What kind of work do you want, and where do you know the business best?</p>
-      <p class="field-q">Engagements you want (select all that apply)</p>
-      <div class="choice-grid" data-roles="attorney" data-group="engagements" data-min="1" data-label="Engagements wanted" data-msg="Choose at least one type of engagement." style="margin-bottom:24px;">
-        <label class="choice"><input type="checkbox" name="engagements" value="Fractional General Counsel"> Fractional General Counsel</label>
-        <label class="choice"><input type="checkbox" name="engagements" value="Part-time in-house counsel"> Part-time in-house counsel</label>
-        <label class="choice"><input type="checkbox" name="engagements" value="Project counsel"> Project counsel</label>
-        <label class="choice"><input type="checkbox" name="engagements" value="Interim & leave coverage"> Interim &amp; leave coverage</label>
-        <label class="choice"><input type="checkbox" name="engagements" value="Board & advisory roles"> Board &amp; advisory roles</label>
-      </div>
-      <div class="choice-grid" data-roles="paralegal contracts assistant" hidden data-group="support_engagements" data-min="1" data-label="Engagements wanted" data-msg="Choose at least one type of engagement." style="margin-bottom:24px;">
-        <label class="choice"><input type="checkbox" name="support_engagements" value="Part-time, ongoing"> Part-time, ongoing</label>
-        <label class="choice"><input type="checkbox" name="support_engagements" value="Project-based"> Project-based</label>
-        <label class="choice"><input type="checkbox" name="support_engagements" value="Interim & leave coverage"> Interim &amp; leave coverage</label>
-        <label class="choice"><input type="checkbox" name="support_engagements" value="Overflow / peak periods"> Overflow / peak periods</label>
-        <label class="choice"><input type="checkbox" name="support_engagements" value="Open to temp-to-hire"> Open to temp-to-hire</label>
-      </div>
-      <p class="field-q">Industries you know best (optional, up to three)</p>
-      <span class="choice-count" data-count-for="industries" style="margin-top:-32px;">0 of 3 selected</span>
-      <div class="choice-grid" data-group="industries" data-max="3" data-label="Industries">
-        <label class="choice"><input type="checkbox" name="industries" value="Software & SaaS"> Software &amp; SaaS</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Fintech & Financial Services"> Fintech &amp; Financial Services</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Healthcare & Life Sciences"> Healthcare &amp; Life Sciences</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Manufacturing & Industrial"> Manufacturing &amp; Industrial</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Real Estate & Construction"> Real Estate &amp; Construction</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Consumer & Retail"> Consumer &amp; Retail</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Energy & Climate"> Energy &amp; Climate</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Media & Entertainment"> Media &amp; Entertainment</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Nonprofit & Education"> Nonprofit &amp; Education</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Government Contracting"> Government Contracting</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Logistics & Transportation"> Logistics &amp; Transportation</label>
-        <label class="choice"><input type="checkbox" name="industries" value="Professional Services"> Professional Services</label>
-      </div>
-    </fieldset>
-
-    <!-- 11 -->
-    <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">Availability &amp; Rate</h3>
-      <p class="step-hint">You set your rate. Clients pay it plus our platform fee, as one all-in rate on one invoice.</p>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="a-hours">Hours per week</label>
-          <select id="a-hours" name="hours" class="form-control" required data-label="Hours per week">
-            <option value="" disabled selected>Select one</option>
-            <option>Under 10 hours</option>
-            <option>10–20 hours</option>
-            <option>20–30 hours</option>
-            <option>30+ hours</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="a-start">Available to start</label>
-          <select id="a-start" name="start" class="form-control" required data-label="Available to start">
-            <option value="" disabled selected>Select one</option>
-            <option>Immediately</option>
-            <option>Within 2 weeks</option>
-            <option>Within 30 days</option>
-            <option>In 1–3 months</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="a-rate">Target hourly rate (USD)</label>
-        <div class="input-prefix"><span aria-hidden="true">$</span><input type="number" id="a-rate" name="rate" class="form-control" placeholder="250" min="1" step="1" inputmode="numeric" required data-label="Target hourly rate" data-format="$% / hour"></div>
-      </div>
-      <div class="choice-list" style="margin-bottom:18px;">
-        <label class="choice"><input type="checkbox" name="retainer" value="Yes" data-label="Open to monthly retainers" data-on="Yes"> I'm also open to monthly retainer arrangements</label>
-      </div>
-      <p class="field-q">Work setup (optional)</p>
-      <div class="choice-grid" data-group="work_setup" data-label="Work setup" style="grid-template-columns:repeat(3,1fr);">
-        <label class="choice"><input type="checkbox" name="work_setup" value="Remote"> Remote</label>
-        <label class="choice"><input type="checkbox" name="work_setup" value="Hybrid"> Hybrid</label>
-        <label class="choice"><input type="checkbox" name="work_setup" value="On-site"> On-site</label>
-      </div>
-    </fieldset>
-
-    <!-- 12 -->
-    <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">Résumé &amp; LinkedIn</h3>
-      <p class="step-hint">Your résumé is what our recruiters and clients review first.</p>
-      <div class="form-group">
-        <label for="a-resume">Résumé (PDF or Word, up to 10 MB)</label>
-        <input type="file" id="a-resume" name="resume" class="form-control" accept=".pdf,.doc,.docx" required data-label="Résumé" data-msg="Please attach your résumé (PDF or Word).">
-      </div>
-      <div class="form-group">
-        <label for="a-linkedin">LinkedIn Profile</label>
-        <input type="text" id="a-linkedin" name="linkedin" class="form-control" placeholder="https://www.linkedin.com/in/your-profile-name" inputmode="url" autocomplete="url" required data-linkedin data-label="LinkedIn">
-        <p class="field-note">Your LinkedIn username (e.g. "jane-smith") or the full profile URL both work.</p>
-      </div>
-      <div class="form-group">
-        <label for="a-video">Already have a video introduction? (optional)</label>
-        <input type="text" id="a-video" name="video_link" class="form-control" placeholder="Link to a video of you (YouTube, Loom, etc.)" inputmode="url" data-url data-label="Existing video">
-        <p class="field-note">Either way, you'll record your LawStaff video interview right after you apply.</p>
-      </div>
-      <div class="form-group">
-        <label for="a-matters">Representative matters or clients (optional)</label>
-        <textarea id="a-matters" name="matters" class="form-control" maxlength="1000" placeholder="e.g. Outside GC to a Series B fintech; led sale of a $40M manufacturing business; built a privacy program for a healthcare SaaS company" data-label="Representative matters"></textarea>
-      </div>
-    </fieldset>
-
-    <!-- 13 -->
-    <fieldset class="apply-step" hidden>
-      <h3 tabindex="-1">Review &amp; Submit</h3>
-      <p class="step-hint">Check your answers. Click "Edit" to change anything.</p>
-      <dl class="review-list" id="reviewList"></dl>
-      <div class="form-group">
-        <label for="a-heard">How did you hear about LawStaff Group? (optional)</label>
-        <select id="a-heard" name="heard_from" class="form-control" data-label="Heard about us from">
-          <option value="">Select an option</option>
-          <option>A friend or colleague</option>
-          <option>LinkedIn</option>
-          <option>Google</option>
-          <option>ChatGPT / Claude / AI assistant</option>
-          <option>A LawStaff recruiter</option>
-          <option>An event</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="choice-list" style="margin-bottom:0;">
-        <label class="choice"><input type="checkbox" name="attest" value="Yes" required data-label="Attestation" data-on="Confirmed accurate; agrees to reference checks (and bar confirmation for attorneys)" data-msg="Please confirm your information to submit."> I confirm this information is accurate, and I understand LawStaff Group will check my references and, for attorneys, confirm bar admissions.</label>
-      </div>
-      <p class="field-note" style="margin-top:12px;">Free to apply. No membership dues.</p>
-    </fieldset>
-
-    <p class="step-error" id="stepError" role="alert"></p>
-
-    <div class="apply-actions">
-      <button type="button" class="apply-back is-hidden" id="applyBack"><svg class="ico" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Back</button>
-      <div class="apply-actions-right">
-        <button type="button" class="apply-skip" id="applySkip" hidden>Skip this step</button>
-        <button type="submit" class="btn btn-navy" id="applyNext">Continue</button>
-      </div>
+      <section class="lsa-sheet lsa-done" id="lsaDone" hidden aria-labelledby="doneTitle">
+        <span class="lsa-letter lsa-letter--done" aria-hidden="true">✓</span>
+        <h2 id="doneTitle" tabindex="-1">Your file is in</h2>
+        <p>Thanks, <span id="doneName"></span>. A LawStaff recruiter will contact you at <strong id="doneEmail"></strong> to set up your video interview.</p>
+        <ol class="num-steps">
+          <li><strong>Record your video interview</strong> from your phone or laptop once we set it up with you.</li>
+          <li><strong>A LawStaff recruiter reviews your file,</strong> checks references and, for attorneys, license status.</li>
+          <li><strong>When a role fits, we call you first.</strong> Your profile goes to a client only with your OK.</li>
+        </ol>
+        <a href="index.html" class="btn btn-primary">Back to LawStaff Group</a>
+      </section>
     </div>
-  </form>
-
-  <section class="apply-card apply-done" id="applyDone" hidden aria-labelledby="doneTitle">
-    <div class="apply-done-icon" aria-hidden="true">✓</div>
-    <h3 id="doneTitle" tabindex="-1">Application received</h3>
-    <p id="doneManual">Thank you. Your next step is your video interview: a LawStaff recruiter will contact you at <strong id="doneEmail"></strong> to set it up. You can record it from your phone or laptop.</p>
-    <div id="doneVideo" hidden>
-      <p>Thank you. Your next step is your video interview. Record it now from your phone or laptop, or later from the link we email to <strong id="doneEmail2"></strong>.</p>
-      <p style="margin-top:18px;"><a id="doneVideoLink" class="btn btn-primary btn-lg" href="#" target="_blank" rel="noopener">🎥 Record your video interview now</a></p>
-    </div>
-    <ol class="num-steps">
-      <li><strong>Record your video interview</strong> from your phone or laptop.</li>
-      <li><strong>We review your application</strong> and check references, plus bar admissions for attorneys.</li>
-      <li><strong>Once you're approved,</strong> we start presenting you to clients that fit your practice, rate and availability.</li>
-    </ol>
-    <a href="index.html" class="btn btn-primary">Back to LawStaff Group</a>
-  </section>
+  </div>
 
   <p class="apply-help">Questions? Call <a href="tel:+14042500790">404-250-0790</a> or email <a href="mailto:gus@stafffinancial.com">gus@stafffinancial.com</a></p>
   <p class="apply-help" style="margin-top:8px;">LawStaff Group is a legal staffing company, not a law firm, and does not provide legal advice.</p>
 </main>
 
-<script src="js/counsel-apply.js"></script>
+<script src="js/lawstaff-application.js"></script>
 </body>
 </html>
