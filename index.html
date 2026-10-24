@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
   <link rel="apple-touch-icon" href="img/favicon-180.png">
-  <title>Fractional &amp; Part-Time Business Counsel | LawStaff Group</title>
-  <meta name="description" content="Retain experienced, video-interviewed fractional counsel, paralegals, contract administrators and legal assistants by the hour, week or month. LawStaff Group runs billing and payroll on every engagement.">
+  <title>Legal Temps &amp; Fractional Attorneys | LawStaff Group</title>
+  <meta name="description" content="Temporary paralegals, legal assistants and legal support, plus video-interviewed fractional attorneys, by the hour, week or month. LawStaff Group runs payroll on every engagement. Alpharetta, GA, since 2003.">
   <link rel="canonical" href="https://www.lawstaffgroup.net/">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="LawStaff Group">
-  <meta property="og:title" content="Fractional &amp; Part-Time Business Counsel | LawStaff Group">
-  <meta property="og:description" content="Retain experienced, video-interviewed fractional counsel, paralegals, contract administrators and legal assistants by the hour, week or month. LawStaff Group runs billing and payroll on every engagement.">
+  <meta property="og:title" content="Legal Temps &amp; Fractional Attorneys | LawStaff Group">
+  <meta property="og:description" content="Temporary paralegals, legal assistants and legal support, plus video-interviewed fractional attorneys, by the hour, week or month. LawStaff Group runs payroll on every engagement. Alpharetta, GA, since 2003.">
   <meta property="og:url" content="https://www.lawstaffgroup.net/">
   <meta property="og:image" content="https://www.lawstaffgroup.net/img/lawstaff-logo.png">
   <meta property="og:locale" content="en_US">
@@ -159,18 +159,66 @@
      lives on services.html and the "Legal Staffing" menu. -->
 <section class="hero">
   <div class="container">
-    <div class="hero-inner">
-      <span class="hero-kicker">Fractional &amp; Part-Time Business Counsel · Alpharetta, GA · Since 2003</span>
-      <h1>The Future of Business Counsel<br>Is <em>Fractional</em></h1>
-      <p>Retain experienced, video-interviewed counsel and legal support for the hours you actually need. We run billing and payroll on every engagement, so the lawyers just practice law.</p>
-      <div class="hero-ctas">
-        <a href="hire.html" class="btn-hero-pill btn-hero-pill--filled">Hire Fractional Counsel →</a>
-        <a href="join.html" class="btn-hero-pill">Join the Platform →</a>
+    <div class="hero-split">
+      <div class="hero-copy">
+        <span class="hero-kicker">Legal Staffing · Alpharetta, GA · Since 2003</span>
+        <h1>Legal Temps &amp; <em>Fractional Attorneys</em> on Demand</h1>
+        <p>Temporary paralegals, legal assistants and legal support, plus experienced fractional attorneys, for the hours you need. Every one video-interviewed. We run payroll on every engagement, so you get the talent and the lawyers just practice law.</p>
+        <div class="hero-ctas">
+          <a href="hire.html" class="btn-hero-pill btn-hero-pill--filled">Hire Talent →</a>
+          <a href="join.html" class="btn-hero-pill">Join the Platform →</a>
+        </div>
+        <p class="hero-service-line">Temps &nbsp;·&nbsp; Temp-to-Hire &nbsp;·&nbsp; Fractional Attorneys &nbsp;·&nbsp; Fractional GC</p>
       </div>
-      <p class="hero-service-line">Fractional GC &nbsp;·&nbsp; Part-Time Counsel &nbsp;·&nbsp; Paralegals &nbsp;·&nbsp; Contract Administrators &nbsp;·&nbsp; Legal Assistants</p>
+      <div class="hero-cards">
+        <aside class="hero-guide" aria-label="Legal Salary Guide 2026">
+          <div class="hero-guide-top">
+            <img src="img/lawstaff-legal-cover.png" alt="" width="64" height="83">
+            <div>
+              <span class="hero-guide-kicker">New · Legal Salary Guide 2026</span>
+              <h2>What legal professionals are asking to be paid</h2>
+            </div>
+          </div>
+          <ul class="hero-guide-stats">
+            <li><b>$72K</b><span>Legal Assistant</span></li>
+            <li><b>$85K</b><span>Paralegal</span></li>
+            <li><b>$215K</b><span>Counsel / Attorney</span></li>
+          </ul>
+          <a href="salary-guide.html" class="hero-guide-link">Get the free guide →</a>
+        </aside>
+        <div class="panel hero-jobs">
+          <div class="panel-head">
+            <span class="panel-label">Current Opportunities</span>
+            <span class="live-pill">Active searches</span>
+          </div>
+          <div id="heroJobs"><div class="np-empty">Loading open positions…</div></div>
+          <a class="panel-foot" href="https://100xjobs.com" target="_blank" rel="noopener">View all open positions →</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+<script>
+/* HERO_SPLIT_v1: legal openings from the 100X jobs feed (the feed NorthPoint's card uses). */
+(function(){
+  var LEGAL=/(counsel|attorney|lawyer|paralegal|legal|litigation|\bclo\b|law clerk|contracts? (manager|administrator))/i;
+  var box=document.getElementById('heroJobs');
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function none(){box.innerHTML='<div class="np-empty">New searches open every week. <a href="hire.html#request" style="color:var(--blue);font-weight:600;">Tell us what you need →</a></div>';}
+  fetch('https://100xrecruiting.com/api/public/jobs?limit=20').then(function(r){return r.json();}).then(function(d){
+    var seen={}, jobs=((d&&d.jobs)||[]).filter(function(j){
+      var t=(j.title||'').trim(); if(!LEGAL.test(t)||seen[t.toLowerCase()]) return false; seen[t.toLowerCase()]=1; return true;
+    }).slice(0,4);
+    if(!jobs.length){none();return;}
+    box.innerHTML=jobs.map(function(j){
+      var meta=[j.location,j.salary].filter(Boolean).join(' · ');
+      var url=/^https:\/\//.test(j.job_url||'')?j.job_url:'https://100xjobs.com';
+      return '<a class="np-job" href="'+esc(url)+'" target="_blank" rel="noopener"><span class="np-job-dot"></span><span>'
+        +'<span class="np-job-title">'+esc(j.title)+'</span>'+(meta?'<span class="np-job-meta">'+esc(meta)+'</span>':'')+'</span></a>';
+    }).join('');
+  }).catch(none);
+})();
+</script>
 
 <!-- ── Legal Talent Spotlight (scrolling strip, live from the candidate database) ── -->
 <!-- SPOT_EXT_TICKER_v1 (Gus 10-06: candidate spotlights scrolling across our websites).

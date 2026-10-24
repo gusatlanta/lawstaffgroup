@@ -753,6 +753,30 @@ footer { background: #081a33; padding: 64px 0 30px; color: rgba(255,255,255,.6);
 .profile-facts dd { color: var(--ink); font-weight: 600; }
 .profile-card .tag { font-size: .8rem; padding: 5px 12px; }
 
+/* HERO_SPLIT_v1 (Gus 10-24: "we can model this for lawstaff from northpoint"): copy on the
+   left, the salary guide + live legal openings on the right, as on NorthPoint's home page. */
+.hero-split { position: relative; z-index: 2; display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+.hero-split .hero-copy { text-align: left; }
+.hero-split h1 { font-size: clamp(2.2rem, 4.4vw, 3.4rem); }
+.hero-split .hero-copy > p:not(.hero-service-line) { margin: 0; max-width: 560px; }
+.hero-split .hero-ctas { justify-content: flex-start; }
+.hero-cards { display: flex; flex-direction: column; gap: 16px; }
+.hero-guide { display: grid; gap: 14px; padding: 20px 22px; background: var(--white); color: var(--ink); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); }
+.hero-guide-top { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 16px; align-items: center; }
+.hero-guide-top img { width: 64px; height: auto; border-radius: 5px; box-shadow: 0 10px 22px rgba(14,34,64,.35); transform: rotate(-5deg); }
+.hero-guide-kicker { display: block; font-family: var(--font-head); font-size: .66rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+.hero-guide h2 { font-size: 1.2rem; line-height: 1.2; color: var(--ink); }
+.hero-guide-stats { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.hero-guide-stats li { background: var(--off-white); border: 1px solid var(--border); border-radius: 10px; padding: 8px 6px; text-align: center; }
+.hero-guide-stats b { display: block; font-family: var(--font-head); font-size: 1.2rem; font-weight: 600; color: var(--blue-dark); line-height: 1; }
+.hero-guide-stats span { display: block; margin-top: 4px; font-size: .7rem; color: var(--text-muted); line-height: 1.2; }
+.hero-guide-link { justify-self: start; font-size: .82rem; font-weight: 600; color: var(--white); background: var(--grad-brand); padding: 7px 14px; border-radius: 100px; }
+.hero-guide-link:hover { filter: brightness(1.1); }
+.hero-jobs .np-job { justify-content: flex-start; gap: 10px; padding: 11px 22px; }
+.hero-jobs .np-job-title, .hero-jobs .np-job-meta { display: block; }
+.hero-jobs a.np-job:hover .np-job-title { color: var(--blue); }
+@media (max-width: 1000px) { .hero-split { grid-template-columns: 1fr; gap: 36px; } }
+
 /* "Where fractional counsel steps in" scrolling scenarios (main.js loops the rows) */
 .scenario-band { padding: 64px 0; overflow: hidden; }
 .scenario-band .section-kicker { display: block; text-align: center; margin-bottom: 22px; }
