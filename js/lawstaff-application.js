@@ -1,11 +1,15 @@
 /* LawStaff Group — application (apply.html).
    LAWSTAFF_FILE_v1 (Gus 10-24: "we want our own finger prints on this"): the
    application is a candidate file with tabs A-G. Answers save to this browser
-   until sent; the finished file posts to the public inquiry API like the site's
-   other forms, so it lands in the recruiter inbox and emails the team. */
+   until sent (all but the résumé file). The finished file and résumé go to
+   100X's LawStaff door (LAWSTAFF_DOORS_v1), which makes the candidate, sends them
+   to PCR and answers with a record-your-video link; if that door is missing it
+   falls back to the public inquiry inbox like the site's other forms. */
 (function () {
   var API = 'https://100xrecruiting.com/api/public/inquiry';
+  var APPLY_DOOR = 'https://100xrecruiting.com/api/public/lawstaff/apply';
   var DRAFT_KEY = 'lawstaff-file-v1';
+  var RESUME_MAX = 10 * 1024 * 1024;
   var MAX_AREAS = 5;
 
   var STATES = [['AL', 'Alabama'], ['AK', 'Alaska'], ['AZ', 'Arizona'], ['AR', 'Arkansas'], ['CA', 'California'],
@@ -19,43 +23,15 @@
     ['SD', 'South Dakota'], ['TN', 'Tennessee'], ['TX', 'Texas'], ['UT', 'Utah'], ['VT', 'Vermont'],
     ['VA', 'Virginia'], ['WA', 'Washington'], ['WV', 'West Virginia'], ['WI', 'Wisconsin'], ['WY', 'Wyoming']];
 
-  /* LawStaff's own practice-area list: twelve groups, flat picks (no sub-levels). */
+  /* PRACTICE_80_20_v1 (Gus 10-24: "that is too much - 80/20 rule"): the areas most of
+     our attorneys, paralegals and legal staff work in. Anything else, they type their own. */
   var AREAS = [
-    ['Corporate & transactions', ['General corporate / outside general counsel', 'Entity formation & governance',
-      'Mergers & acquisitions', 'Private equity', 'Venture capital & startup financing',
-      'Joint ventures & strategic alliances', 'Securities & capital markets', 'Board & corporate secretary support']],
-    ['Contracts & commercial', ['Commercial contracts', 'Contract management & CLM', 'Sales & customer agreements',
-      'Vendor & procurement', 'Government contracts', 'Franchise & distribution', 'Technology & IP licensing']],
-    ['Technology, IP & privacy', ['Technology transactions & SaaS', 'Privacy & data protection',
-      'Cybersecurity & breach response', 'AI & emerging technology', 'Patents', 'Trademarks & copyrights',
-      'Trade secrets', 'IP litigation']],
-    ['Employment & benefits', ['Employment advice & policies', 'Employment litigation', 'Wage & hour',
-      'Non-competes & restrictive covenants', 'Workplace investigations', 'Labor & unions', 'Benefits & ERISA',
-      'Executive compensation', 'Business immigration', 'Workers’ compensation']],
-    ['Litigation & disputes', ['Commercial litigation', 'Class actions & mass torts', 'Securities litigation',
-      'Product liability', 'Insurance defense', 'Personal injury', 'Medical malpractice', 'Appellate',
-      'Arbitration & mediation', 'eDiscovery & document review', 'Construction disputes', 'Real estate litigation']],
-    ['Regulatory & compliance', ['Compliance programs & ethics', 'Antitrust & competition', 'Healthcare regulatory',
-      'FDA & life sciences', 'Banking & consumer finance', 'Fintech & payments', 'Digital assets',
-      'Insurance regulatory', 'Energy & utilities', 'Environmental', 'Telecom & media', 'Transportation & aviation',
-      'Export controls & sanctions', 'Anti-corruption (FCPA)', 'Anti-money laundering', 'Cannabis',
-      'Gaming', 'Alcohol & beverage', 'Advertising & marketing']],
-    ['Finance, tax & restructuring', ['Lending & credit facilities', 'Project & infrastructure finance',
-      'Equipment finance & leasing', 'Bankruptcy & restructuring', 'Creditors’ rights & collections',
-      'Corporate tax', 'State & local tax', 'International tax', 'Tax controversy']],
-    ['Real estate & construction', ['Commercial real estate', 'Leasing', 'Real estate finance',
-      'Residential closings & title', 'Land use & zoning', 'Development', 'Construction contracts']],
-    ['People & families', ['Family law & divorce', 'Trusts & estates', 'Probate & estate administration',
-      'Elder law & guardianship', 'Family & humanitarian immigration', 'Criminal defense', 'Civil rights',
-      'Social Security & disability']],
-    ['Government & public sector', ['Administrative & agency practice', 'Municipal & local government',
-      'Public finance', 'Education law', 'Native American & tribal law', 'Election & political law',
-      'Nonprofit & tax-exempt', 'Lobbying & government relations']],
-    ['Investigations & white collar', ['Internal investigations', 'Government investigations',
-      'White collar defense', 'Whistleblower matters']],
-    ['Legal operations & support', ['Legal operations', 'eBilling & outside counsel spend',
-      'Matter & document management', 'Litigation support & trial prep', 'Docketing & calendaring',
-      'Knowledge management']]
+    'Banking & Finance', 'Bankruptcy & Restructuring', 'Commercial Contracts', 'Compliance & Regulatory',
+    'Construction', 'Corporate / M&A', 'Criminal Defense', 'Employment & Labor', 'Family Law',
+    'Government Contracts', 'Healthcare', 'Immigration', 'Insurance Defense', 'Intellectual Property',
+    'Litigation', 'Medical Malpractice', 'Personal Injury', 'Privacy & Data Protection', 'Real Estate',
+    'Securities', 'Startups & Venture Capital', 'Tax', 'Technology & SaaS', 'Trusts & Estates',
+    'Workers’ Compensation'
   ];
 
   var ROLE_KEYS = {
@@ -112,26 +88,16 @@
     chipBox.appendChild(chip);
   });
 
-  var groupBox = document.getElementById('areaGroups');
-  AREAS.forEach(function (g) {
-    var details = el('details', 'lsa-group');
-    var summary = el('summary');
-    summary.appendChild(el('span', 'lsa-group-name', g[0]));
-    summary.appendChild(el('span', 'lsa-group-n'));
-    details.appendChild(summary);
-    var grid = el('div', 'lsa-grid');
-    g[1].forEach(function (a) {
-      var opt = el('label', 'lsa-opt');
-      var box = document.createElement('input');
-      box.type = 'checkbox';
-      box.name = 'areas';
-      box.value = a;
-      opt.appendChild(box);
-      opt.appendChild(el('span', null, a));
-      grid.appendChild(opt);
-    });
-    details.appendChild(grid);
-    groupBox.appendChild(details);
+  var areaGrid = document.getElementById('areaGrid');
+  AREAS.forEach(function (a) {
+    var opt = el('label', 'lsa-opt');
+    var box = document.createElement('input');
+    box.type = 'checkbox';
+    box.name = 'areas';
+    box.value = a;
+    opt.appendChild(box);
+    opt.appendChild(el('span', null, a));
+    areaGrid.appendChild(opt);
   });
 
   /* ── Reading answers ──────────────────────── */
@@ -178,6 +144,8 @@
       v = [].map.call(node.querySelectorAll('input:checked'), function (i) { return i.value; }).join(', ');
     } else if (node.type === 'checkbox') {
       v = node.checked ? (node.dataset.on || node.value) : '';
+    } else if (node.type === 'file') {
+      v = node.files && node.files[0] ? node.files[0].name : '';
     } else {
       v = node.value.trim();
     }
@@ -194,38 +162,14 @@
   function tabTitle(tab) { return tab.dataset.title.replace('&amp;', '&'); }
   function letter(i) { return String.fromCharCode(65 + i); }
 
-  /* ── Practice areas: count, cap, find ─────── */
+  /* ── Practice areas: count + cap ──────────── */
   var areaCount = document.getElementById('areaCount');
-  var areaFind = document.getElementById('areaFind');
 
   function refreshAreas() {
     var n = checked('areas').length;
     areaCount.textContent = n + ' of ' + MAX_AREAS;
     areaCount.classList.toggle('is-full', n >= MAX_AREAS);
-    [].forEach.call(groupBox.querySelectorAll('.lsa-group'), function (g) {
-      var k = g.querySelectorAll('input:checked').length;
-      g.querySelector('.lsa-group-n').textContent = k ? k + ' picked' : '';
-      if (k) g.open = true;
-    });
   }
-
-  areaFind.addEventListener('input', function () {
-    var terms = areaFind.value.toLowerCase().split(/\s+/).filter(Boolean);
-    [].forEach.call(groupBox.querySelectorAll('.lsa-group'), function (g) {
-      var name = g.querySelector('.lsa-group-name').textContent.toLowerCase();
-      var hits = 0;
-      [].forEach.call(g.querySelectorAll('.lsa-opt'), function (opt) {
-        var text = (name + ' ' + opt.textContent).toLowerCase();
-        var show = terms.every(function (t) { return text.indexOf(t) > -1; });
-        opt.hidden = !show;
-        if (show) hits++;
-      });
-      g.hidden = !hits;
-      if (terms.length) g.open = hits > 0;
-    });
-    if (!terms.length) refreshAreas();
-  });
-  areaFind.addEventListener('keydown', function (e) { if (e.key === 'Enter') e.preventDefault(); });
 
   /* ── Small helpers ────────────────────────── */
   function counter(area) {
@@ -263,14 +207,14 @@
 
   form.addEventListener('input', function (e) {
     if (e.target.tagName === 'TEXTAREA') counter(e.target);
-    if (e.target !== areaFind) saveDraft();
+    saveDraft();
   });
 
   /* ── Draft (this browser only) ────────────── */
   function snapshot() {
     var out = {};
     [].forEach.call(form.elements, function (f) {
-      if (!f.name || f.name === 'hp_website') return;
+      if (!f.name || f.name === 'hp_website' || f.type === 'file') return;   /* a file can't go in a draft */
       if (f.type === 'checkbox') {
         out[f.name] = out[f.name] || [];
         if (f.checked) out[f.name].push(f.value);
@@ -308,7 +252,7 @@
     try { d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); } catch (err) { d = null; }
     if (!d || !d.v) return;
     [].forEach.call(form.elements, function (f) {
-      if (!f.name || !(f.name in d.v)) return;
+      if (!f.name || !(f.name in d.v) || f.type === 'file') return;
       if (f.type === 'checkbox') f.checked = (d.v[f.name] || []).indexOf(f.value) > -1;
       else if (f.type === 'radio') f.checked = d.v[f.name] === f.value;
       else f.value = d.v[f.name];
@@ -334,7 +278,11 @@
     var fields = tab.querySelectorAll('input, select, textarea');
     for (var i = 0; i < fields.length; i++) {
       var f = fields[i];
-      if (f.type === 'hidden' || f === areaFind || !active(f) || f.closest('fieldset.lsa-q')) continue;
+      if (f.type === 'hidden' || !active(f) || f.closest('fieldset.lsa-q')) continue;
+      if (f.type === 'file' && f.files && f.files[0]) {
+        if (!/\.(pdf|docx?)$/i.test(f.files[0].name)) return stop(f, 'Please attach your résumé as a PDF or Word file.', quiet);
+        if (f.files[0].size > RESUME_MAX) return stop(f, 'Please attach a résumé under 10 MB.', quiet);
+      }
       if (f.hasAttribute('data-linkedin') && f.value.trim()) {
         tidyUrl(f);
         if (!/linkedin\.com\//i.test(f.value)) return stop(f, 'That LinkedIn link doesn’t look right. Try linkedin.com/in/your-name.', quiet);
@@ -353,7 +301,8 @@
     for (var g = 0; g < groups.length; g++) {
       if (!active(groups[g])) continue;
       var need = +groups[g].dataset.min || 0;
-      if (need && groups[g].querySelectorAll('input:checked').length < need) {
+      var or = groups[g].dataset.or;   /* e.g. practice areas: a typed-in area counts too */
+      if (need && groups[g].querySelectorAll('input:checked').length < need && !(or && field(or))) {
         var first = groups[g].querySelector('input:not([type="search"])');
         return stop(first, groups[g].dataset.msg || 'Please pick one.', quiet);
       }
@@ -472,42 +421,69 @@
     return lines.join('\n');
   }
 
+  /* LAWSTAFF_DOORS_v1: the file and résumé go to 100X's LawStaff door. null when that
+     door isn't there (404 / network), so send() can still reach the inquiry inbox. */
+  async function sendToDoor() {
+    var fd = new FormData();
+    ['first_name', 'last_name', 'email', 'phone', 'hp_website'].forEach(function (k) { fd.append(k, field(k)); });
+    fd.append('role', roleKey());
+    fd.append('notes', notes());
+    var file = form.elements.resume && form.elements.resume.files[0];
+    if (file) fd.append('resume', file);
+    var res = await fetch(APPLY_DOOR, { method: 'POST', body: fd }).catch(function () { return null; });
+    if (!res || res.status === 404 || res.status === 405) return null;
+    return res.json().catch(function () { return { ok: false }; });
+  }
+
   async function send() {
     var name = (field('first_name') + ' ' + field('last_name')).trim();
     var role = checked('role')[0] || '';
     nextBtn.disabled = true;
     nextBtn.textContent = 'Sending…';
     try {
-      var res = await fetch(API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          employer_name: name,
-          employer_email: field('email'),
-          employer_company: role + ' applicant — ' + name,
-          inquiry_type: 'lawstaff-' + (roleKey() || 'talent') + '-application',
-          candidate_id: '',
-          hp_website: field('hp_website'),
-          notes: notes()
-        })
-      });
-      var json = await res.json().catch(function () { return {}; });
-      if (!json.ok) throw new Error(json.error || 'server error');
-      finish(name);
+      var json = await sendToDoor();
+      if (!json) {
+        var res = await fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            employer_name: name,
+            employer_email: field('email'),
+            employer_company: role + ' applicant — ' + name,
+            inquiry_type: 'lawstaff-' + (roleKey() || 'talent') + '-application',
+            candidate_id: '',
+            hp_website: field('hp_website'),
+            notes: notes()
+          })
+        });
+        json = await res.json().catch(function () { return {}; });
+      }
+      if (!json.ok) {
+        var bad = new Error(json.error || '');
+        bad.fromServer = true;
+        throw bad;
+      }
+      finish(name, json.video_link || '');
     } catch (err) {
       nextBtn.disabled = false;
       nextBtn.textContent = 'Send my application';
-      showError('Your application didn’t go through. Please try again, or call 404-250-0790 or email gus@stafffinancial.com.');
+      showError(err && err.fromServer && err.message ? err.message
+        : 'Your application didn’t go through. Please try again, or call 404-250-0790 or email gus@stafffinancial.com.');
     }
   }
 
-  function finish(name) {
+  function finish(name, videoLink) {
     var email = field('email');
     clearDraft();
     savedAt = 0;   /* stop the 'Saved on this device … ago' timer overwriting the Sent line */
     form.hidden = true;
-    document.getElementById('doneName').textContent = field('first_name') || name;
-    document.getElementById('doneEmail').textContent = email;
+    if (videoLink) {   /* the door answered with a record link: offer it right here */
+      document.getElementById('doneManual').hidden = true;
+      document.getElementById('doneVideo').hidden = false;
+      document.getElementById('doneVideoLink').href = videoLink;
+    }
+    [].forEach.call(document.querySelectorAll('#lsaDone .doneName'), function (n) { n.textContent = field('first_name') || name; });
+    [].forEach.call(document.querySelectorAll('#lsaDone .doneEmail'), function (n) { n.textContent = email; });
     document.getElementById('lsaDone').hidden = false;
     furthest = last;
     current = last;

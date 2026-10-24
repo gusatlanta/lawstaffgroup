@@ -86,7 +86,7 @@
         <section class="lsa-tab" data-title="Contact" hidden>
           <header class="lsa-tab-head">
             <span class="lsa-letter" aria-hidden="true">B</span>
-            <div><h2 tabindex="-1">Contact</h2><p>How we reach you to set up your video interview.</p></div>
+            <div><h2 tabindex="-1">Contact</h2><p>We'll send your video interview link to this email.</p></div>
           </header>
           <div class="lsa-row">
             <div class="lsa-field"><label for="f-first">First name</label><input type="text" id="f-first" name="first_name" class="form-control" autocomplete="given-name" required data-label="First name"></div>
@@ -267,12 +267,11 @@
               <label class="lsa-opt"><input type="checkbox" name="settings" value="Solo practice"><span>Solo practice</span></label>
             </div>
           </fieldset>
-          <fieldset class="lsa-q lsa-areas" data-min="1" data-max="5" data-label="Practice areas" data-msg="Pick at least one practice area.">
+          <fieldset class="lsa-q lsa-areas" data-min="1" data-or="other_area" data-max="5" data-label="Practice areas" data-msg="Pick a practice area, or type yours in the box below.">
             <legend>Practice areas <span class="lsa-hint">Up to five you work in now.</span> <span class="lsa-count" id="areaCount">0 of 5</span></legend>
-            <input type="search" class="form-control lsa-find" id="areaFind" placeholder="Type to find an area, like “wage” or “zoning”" aria-label="Find a practice area" autocomplete="off">
-            <div id="areaGroups"></div>
+            <div class="lsa-grid lsa-grid--3" id="areaGrid"></div>
           </fieldset>
-          <div class="lsa-field"><label for="f-otherarea">Another area we didn't list <span class="lsa-opt-tag">optional</span></label><input type="text" id="f-otherarea" name="other_area" class="form-control" data-label="Other practice area"></div>
+          <div class="lsa-field"><label for="f-otherarea">Not on the list? Type your area</label><input type="text" id="f-otherarea" name="other_area" class="form-control" placeholder="e.g. Maritime, Elder law, eDiscovery" data-label="Other practice area"></div>
           <div class="lsa-field">
             <label for="f-win">Your best recent work, in a few lines</label>
             <textarea id="f-win" name="best_work" class="form-control" maxlength="1200" data-min="40" required data-label="Best recent work" data-msg="A few lines about your best recent work, please (40 characters or more)." placeholder="What you handled, for whom, and how it turned out."></textarea>
@@ -355,27 +354,16 @@
         <section class="lsa-tab" data-title="Résumé &amp; interview" hidden>
           <header class="lsa-tab-head">
             <span class="lsa-letter" aria-hidden="true">F</span>
-            <div><h2 tabindex="-1">Résumé &amp; interview</h2><p>Your next step after this is a short recorded video interview.</p></div>
+            <div><h2 tabindex="-1">Résumé &amp; interview</h2><p>Your résumé is the first thing a recruiter reads. Right after you send this, you can record your video interview.</p></div>
           </header>
+          <div class="lsa-field">
+            <label for="f-cv">Your résumé <span class="lsa-hint">PDF or Word, up to 10 MB</span></label>
+            <input type="file" id="f-cv" name="resume" class="form-control lsa-file" accept=".pdf,.doc,.docx" required data-label="Résumé" data-msg="Please attach your résumé (PDF or Word).">
+          </div>
           <div class="lsa-field">
             <label for="f-li">LinkedIn <span class="lsa-opt-tag">optional</span></label>
             <input type="text" id="f-li" name="linkedin" class="form-control" placeholder="linkedin.com/in/your-name" inputmode="url" data-linkedin data-label="LinkedIn">
           </div>
-          <div class="lsa-field">
-            <label for="f-cv">Link to your résumé <span class="lsa-opt-tag">optional</span></label>
-            <input type="text" id="f-cv" name="resume_link" class="form-control" placeholder="A Google Drive, Dropbox or OneDrive share link" inputmode="url" data-url data-label="Résumé link">
-            <p class="lsa-note">No link handy? Reply to our confirmation email with your résumé attached.</p>
-          </div>
-          <fieldset class="lsa-q" data-min="1" data-label="Best interview times" data-msg="Pick at least one time that works for your video interview.">
-            <legend>When could you record your video interview? <span class="lsa-hint">Pick all that work.</span></legend>
-            <div class="lsa-grid lsa-grid--3">
-              <label class="lsa-opt"><input type="checkbox" name="interview_times" value="Weekday mornings"><span>Weekday mornings</span></label>
-              <label class="lsa-opt"><input type="checkbox" name="interview_times" value="Weekday afternoons"><span>Weekday afternoons</span></label>
-              <label class="lsa-opt"><input type="checkbox" name="interview_times" value="Weekday evenings"><span>Weekday evenings</span></label>
-              <label class="lsa-opt"><input type="checkbox" name="interview_times" value="Weekends"><span>Weekends</span></label>
-              <label class="lsa-opt"><input type="checkbox" name="interview_times" value="Any time"><span>Any time</span></label>
-            </div>
-          </fieldset>
           <div class="lsa-field">
             <label for="f-heard">How did you find LawStaff? <span class="lsa-opt-tag">optional</span></label>
             <select id="f-heard" name="heard_from" class="form-control" data-label="Found us through">
@@ -412,9 +400,13 @@
       <section class="lsa-sheet lsa-done" id="lsaDone" hidden aria-labelledby="doneTitle">
         <span class="lsa-letter lsa-letter--done" aria-hidden="true">✓</span>
         <h2 id="doneTitle" tabindex="-1">Your file is in</h2>
-        <p>Thanks, <span id="doneName"></span>. A LawStaff recruiter will contact you at <strong id="doneEmail"></strong> to set up your video interview.</p>
+        <div id="doneVideo" hidden>
+          <p>Thanks, <span class="doneName"></span>. Your next step is a short video interview. Record it now, or later from the link we email to <strong class="doneEmail"></strong>.</p>
+          <p class="lsa-record"><a id="doneVideoLink" class="btn btn-primary" href="#" target="_blank" rel="noopener">Record your video interview now</a></p>
+        </div>
+        <p id="doneManual">Thanks, <span class="doneName"></span>. A LawStaff recruiter will email you at <strong class="doneEmail"></strong> to set up your video interview.</p>
         <ol class="num-steps">
-          <li><strong>Record your video interview</strong> from your phone or laptop once we set it up with you.</li>
+          <li><strong>Record your video interview</strong> from your phone or laptop.</li>
           <li><strong>A LawStaff recruiter reviews your file,</strong> checks references and, for attorneys, license status.</li>
           <li><strong>When a role fits, we call you first.</strong> Your profile goes to a client only with your OK.</li>
         </ol>
