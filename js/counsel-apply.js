@@ -574,16 +574,8 @@
       items.forEach(function (a) { lines.push(a.label + ': ' + a.value); });
       lines.push('');
     });
-    lines.push('Next step: send the video interview link to ' + field('email') + '.');
+    lines.push('Next step: set up their video interview (' + field('email') + ').');
     return lines.join('\n');
-  }
-
-  /* The inquiry API silently drops any message containing the word "transfer" (its
-     crypto-scam filter, users._SPAM_NAME_TOKENS). Legal applications say it legitimately
-     ("data transfer agreements", "transfer pricing"), so break the match with an
-     invisible soft hyphen. Remove once the API scopes that filter to name fields. */
-  function unblock(text) {
-    return text.replace(/transfer/gi, function (m) { return m.charAt(0) + '\u00AD' + m.slice(1); });
   }
 
   async function send() {
@@ -601,7 +593,7 @@
           inquiry_type:     'lawstaff-' + roleKey() + '-application',
           candidate_id:     '',
           hp_website:       field('hp_website'),
-          notes:            unblock(buildNotes()),
+          notes:            buildNotes(),
         }),
       });
       var json = await res.json().catch(function () { return {}; });
@@ -617,6 +609,7 @@
   function done() {
     var email = field('email');
     clearDraft();
+    savedAt = 0;   /* stop the 'Progress saved … ago' timer overwriting the Submitted line */
     form.hidden = true;
     document.getElementById('doneEmail').textContent = email;
     document.getElementById('applyDone').hidden = false;

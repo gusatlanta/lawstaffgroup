@@ -64,11 +64,17 @@ window.LawStaffTalent = (function () {
     return out;
   }
 
+  /* NO_BLANK_CARDS_v1 (Gus 10-24: an empty "General Counsel · Salt Lake City" card opened a
+     blank résumé): we don't show blank profiles. A card needs skills, systems or years. */
+  function hasContent(c) {
+    return !!((c.skills && c.skills.length) || (c.systems && c.systems.length) || c.years);
+  }
+
   /* All legal candidates across the standard legal titles. */
   function allLegal() {
     return Promise.all(SPOTLIGHT_TITLES.map(function (t) { return fetchAll('title', t); }))
       .then(function (groups) {
-        return dedupe(interleave(groups)).filter(function (c) { return isLegal(c) && isUS(c); });
+        return dedupe(interleave(groups)).filter(function (c) { return isLegal(c) && isUS(c) && hasContent(c); });
       });
   }
 
@@ -76,7 +82,7 @@ window.LawStaffTalent = (function () {
   function search(q) {
     return Promise.all([fetchAll('title', q), fetchAll('keywords', q)])
       .then(function (groups) {
-        return dedupe(groups[0].concat(groups[1])).filter(function (c) { return isLegal(c) && isUS(c); });
+        return dedupe(groups[0].concat(groups[1])).filter(function (c) { return isLegal(c) && isUS(c) && hasContent(c); });
       });
   }
 
@@ -89,7 +95,7 @@ window.LawStaffTalent = (function () {
     var badges = '';
     if (c.years) badges += '<span class="mpc-badge gold">' + esc(c.years) + ' yrs</span>';
     if (c.availability === 'immediately') badges += '<span class="mpc-badge green">Available now</span>';
-    (c.skills || []).slice(0, 3).forEach(function (s) {
+    ((c.skills && c.skills.length) ? c.skills : (c.systems || [])).slice(0, 3).forEach(function (s) {
       badges += '<span class="mpc-badge">' + esc(String(s).slice(0, 34)) + '</span>';
     });
     // BENCH_RESUME_LINK_v1: open their blinded résumé; no résumé link → ask about them

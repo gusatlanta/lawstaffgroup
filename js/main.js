@@ -48,12 +48,6 @@
 
   // Form submit — posts to the hundredx public inquiry API
   var HUNDREDX_API = 'https://100xrecruiting.com';
-
-  // The API silently drops messages containing "transfer" (its crypto-scam filter);
-  // break the match with an invisible soft hyphen so real inquiries get through.
-  function unblock(text) {
-    return text.replace(/transfer/gi, function (m) { return m.charAt(0) + '­' + m.slice(1); });
-  }
   document.querySelectorAll('form[data-form]').forEach(function (form) {
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -65,7 +59,7 @@
 
       var d = Object.fromEntries(new FormData(form));
       var name = ((d.first_name || '') + ' ' + (d.last_name || '')).trim();
-      var notes = unblock([
+      var notes = [
         'Site: LawStaffGroup.net',
         d.i_am            ? 'I am: '              + d.i_am            : '',
         d.candidate_title ? 'Asking about: '      + d.candidate_title : '',
@@ -76,7 +70,7 @@
         d.location        ? 'Location: '          + d.location        : '',
         d.phone           ? 'Phone: '             + d.phone           : '',
         d.message         ? 'Message: '           + d.message         : '',
-      ].filter(Boolean).join('\n'));
+      ].filter(Boolean).join('\n');
 
       try {
         var res = await fetch(HUNDREDX_API + '/api/public/inquiry', {
