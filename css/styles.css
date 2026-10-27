@@ -726,12 +726,6 @@ footer { background: #081a33; padding: 64px 0 30px; color: rgba(255,255,255,.6);
 }
 
 .fee-panel { padding: 30px 28px 26px; }
-.fee-total { display: flex; justify-content: space-between; gap: 12px; font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); padding-bottom: 10px; margin-bottom: 10px; border-bottom: 2px solid var(--ink); }
-.fee-bar { display: flex; min-height: 68px; border-radius: 12px; overflow: hidden; }
-.fee-seg { display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 10px 16px; color: var(--white); font-weight: 700; font-size: .92rem; line-height: 1.25; }
-.fee-seg small { font-weight: 500; font-size: .76rem; opacity: .82; }
-.fee-seg--rate { flex: 1; background: var(--grad-brand); }
-.fee-seg--fee { flex: 0 0 auto; max-width: 46%; background: var(--navy); }
 .fee-panel h4 { font-family: var(--font-body); font-size: .95rem; font-weight: 700; letter-spacing: 0; margin-top: 24px; }
 .fee-panel .check-list { margin-top: 12px; gap: 9px; font-size: .92rem; }
 .fee-note { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); font-size: .85rem; color: var(--text-muted); line-height: 1.6; }
@@ -777,22 +771,29 @@ footer { background: #081a33; padding: 64px 0 30px; color: rgba(255,255,255,.6);
 .hero-jobs a.np-job:hover .np-job-title { color: var(--blue); }
 @media (max-width: 1000px) { .hero-split { grid-template-columns: 1fr; gap: 36px; } }
 
-/* "Where fractional counsel steps in" scrolling scenarios (main.js loops the rows) */
-.scenario-band { padding: 64px 0; overflow: hidden; }
-.scenario-band .section-kicker { display: block; text-align: center; margin-bottom: 22px; }
-.scenario-track { -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
-.scenario-row { display: flex; width: max-content; animation: scenario-scroll 70s linear infinite; }
-.scenario-row + .scenario-row { margin-top: 14px; animation-direction: reverse; animation-duration: 80s; }
-.scenario-band:hover .scenario-row { animation-play-state: paused; }
-.scenario-pill { flex-shrink: 0; margin-right: 14px; padding: 12px 22px; background: var(--white); border: 1px solid var(--border); border-radius: 100px; font-family: var(--font-head); font-size: 1rem; color: var(--ink); white-space: nowrap; box-shadow: var(--shadow-sm); }
-.scenario-band .cta-row { margin-top: 30px; text-align: center; }
-@keyframes scenario-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) {
-  .scenario-track { -webkit-mask-image: none; mask-image: none; }
-  .scenario-row { animation: none; width: auto; flex-wrap: wrap; justify-content: center; gap: 10px 0; padding: 0 16px; }
-  .scenario-dup { display: none; }
+/* OWN_VOICE_v1: "Four ways to staff" comparison table (hire.html). On phones each row
+   becomes a card, with the column name above each cell (data-label). */
+.ways-wrap { margin-top: 40px; }
+.ways-table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.ways-table th, .ways-table td { padding: 16px 18px; text-align: left; vertical-align: top; line-height: 1.55; border-bottom: 1px solid var(--border); }
+.ways-table thead th { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); background: var(--off-white); }
+.ways-table tbody th { width: 17%; font-family: var(--font-head); font-size: 1.08rem; font-weight: 600; color: var(--ink); }
+.ways-table tbody th::before { content: ''; display: block; width: 26px; height: 3px; margin-bottom: 10px; border-radius: 2px; background: var(--grad-brand); }
+.ways-table td { color: var(--text-muted); }
+.ways-table tbody tr:last-child > * { border-bottom: 0; }
+@media (max-width: 760px) {
+  .ways-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ways-table, .ways-table tbody, .ways-table tr, .ways-table th, .ways-table td { display: block; width: 100%; }
+  .ways-table tbody tr { padding: 8px 0 12px; border-bottom: 1px solid var(--border); }
+  .ways-table tbody tr:last-child { border-bottom: 0; }
+  .ways-table tbody th, .ways-table td { padding: 6px 20px; border-bottom: 0; }
+  .ways-table tbody th { width: 100%; padding-top: 14px; }
+  .ways-table td::before { content: attr(data-label); display: block; font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); opacity: .7; }
 }
-@media (max-width: 560px) { .scenario-pill { font-size: .9rem; padding: 10px 18px; } }
+/* The same four, as cards on index.html: 4 across, 2 x 2 on tablets, stacked on phones. */
+.seo-grid.seo-grid--four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .seo-grid.seo-grid--four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .seo-grid.seo-grid--four { grid-template-columns: 1fr; } }
 
 /* City + practice-area pages (tools/build_seo_pages.py) */
 a.practice-chip { transition: border-color .15s, color .15s; }

@@ -36,16 +36,6 @@
     if (href === currentPath || href === currentPath + '.html') link.classList.add('active');
   });
 
-  // Scenario strips loop seamlessly: each row's pills are repeated once (hidden from screen readers)
-  document.querySelectorAll('.scenario-row').forEach(function (row) {
-    [].slice.call(row.children).forEach(function (pill) {
-      var copy = pill.cloneNode(true);
-      copy.setAttribute('aria-hidden', 'true');
-      copy.classList.add('scenario-dup');
-      row.appendChild(copy);
-    });
-  });
-
   // Form submit — posts to the hundredx public inquiry API
   var HUNDREDX_API = 'https://100xrecruiting.com';
   document.querySelectorAll('form[data-form]').forEach(function (form) {

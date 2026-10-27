@@ -1,13 +1,15 @@
 # LawStaff Group
 
-> LawStaff Group is a platform for fractional and part-time business counsel and legal talent, and a full-service legal recruiting firm, powered by NorthPoint, placing top-tier legal professionals on a temporary, temp-to-hire and direct-hire basis since 2003. Based in Atlanta, GA.
+> LawStaff Group is a legal staffing company, powered by NorthPoint, placing attorneys, paralegals, contract administrators and legal assistants with law firms and legal departments in fractional, contract, temporary, temp-to-hire and direct-hire roles since 2003. Based in Alpharetta (metro Atlanta), GA.
 
-## Fractional counsel and legal talent platform
-Businesses retain fractional counsel, paralegals, contract administrators and legal assistants by the hour, week or month. LawStaff Group runs the backend of every engagement — client invoicing, payroll, employer taxes and insurance — for a set percentage platform fee, so the professionals just do the work.
-- Engagements: fractional general counsel, part-time in-house counsel, project counsel, interim and leave coverage, and part-time or project-based legal support.
-- Vetting: every professional completes a step-by-step application and records a video interview. LawStaff confirms bar admissions for attorneys and checks references before presenting anyone.
-- Pricing: each professional sets their rate; the client pays one all-in rate (rate plus platform fee) on one invoice. Free for professionals to apply, with no membership dues.
-- Independence: LawStaff Group never directs an attorney's legal work or professional judgment. LawStaff Group is a legal staffing company, not a law firm, and does not provide legal advice.
+## Four ways to staff
+- Fractional: a set number of hours each week or month, ongoing (for example a fractional general counsel, or a paralegal for one practice group). The professional works on LawStaff Group's payroll.
+- Contract and temp: full or part time with an end date, such as a trial, a leave, a backlog or a project. On LawStaff Group's payroll.
+- Temp-to-hire: starts on LawStaff Group's payroll so the employer can see the work before making an offer.
+- Direct hire: a permanent hire on the employer's payroll from day one, backed by a replacement guarantee.
+- Billing: on fractional, contract and temp-to-hire placements, the employer pays one hourly rate for approved hours, covering the professional's pay and LawStaff Group's fee, quoted for every candidate before interviews. LawStaff Group handles payroll, employer taxes, workers' compensation, unemployment and general liability coverage. Candidates never pay a fee.
+- Screening: a LawStaff recruiter interviews, tests and reference-checks every candidate, confirms bar admissions for attorneys, and asks a screening questionnaire built with the employer. Every candidate presented has a recorded video interview.
+- Independence: LawStaff Group never directs an attorney's legal work or professional judgment and never takes a share of legal fees. LawStaff Group is a legal staffing company, not a law firm, and does not provide legal advice.
 
 ## Who we place
 Attorneys, paralegals, legal secretaries, legal administrators, litigation support, legal office services, legal nurse consultants and legal IT professionals.
@@ -27,9 +29,9 @@ Video introductions: every candidate is invited to film an optional video introd
 
 ## Pages
 - Home: https://www.lawstaffgroup.net/
-- Hire fractional counsel and legal support: https://www.lawstaffgroup.net/hire.html
-- For legal talent (how joining works): https://www.lawstaffgroup.net/join.html
-- Apply to the platform: https://www.lawstaffgroup.net/apply.html
+- Hire attorneys and legal support (fractional, contract, temp-to-hire, direct hire): https://www.lawstaffgroup.net/hire.html
+- For legal talent (what happens after you apply): https://www.lawstaffgroup.net/join.html
+- Apply: https://www.lawstaffgroup.net/apply.html
 - Hiring solutions: https://www.lawstaffgroup.net/services.html
 - Browse legal talent: https://www.lawstaffgroup.net/candidates.html
 - Legal Salary Guide 2026: https://www.lawstaffgroup.net/salary-guide.html (what paralegals, legal assistants, contracts & compliance professionals, counsel and General Counsel are asking to be paid, from 144 candidate questionnaires plus BLS data)

@@ -210,7 +210,7 @@ PRACTICES = [
          handles=["Customer and sales agreements", "Vendor, procurement and services agreements", "Master services agreements and statements of work",
                   "NDAs, partnership and reseller agreements", "Contract templates, playbooks and approval workflows", "Negotiation support for sales and procurement"],
          triggers=["Sales deals are waiting on legal review", "You don't have standard templates or a playbook",
-                   "You're signing whatever paper vendors send", "Contract volume spiked with growth"],
+                   "Vendor agreements get signed without a legal read", "Contract volume spiked with growth"],
          support="Add a fractional contract administrator for intake, tracking, signatures and renewals, working under counsel's direction.",
          faq=[("Can a fractional lawyer handle our contract volume?", "Yes. Hours scale with volume, and pairing counsel with templates, a playbook and a contract administrator lets one fractional lawyer handle far more agreements."),
               ("What's the difference between contracts counsel and a contract administrator?", "Contracts counsel gives legal advice, negotiates and approves terms. A contract administrator runs intake, tracking, signatures and renewals under counsel's direction and does not give legal advice."),
@@ -221,7 +221,7 @@ PRACTICES = [
          handles=["Offer letters and employment agreements", "Handbooks and workplace policies", "Employee versus contractor classification",
                   "Multi-state employment compliance", "Non-competes, non-solicits and confidentiality agreements", "Terminations, severance and separation agreements",
                   "Workplace investigations", "Executive compensation and equity questions"],
-         triggers=["You're hiring in new states", "Your handbook is out of date", "A difficult termination or employee complaint",
+         triggers=["Your first employees in a new state", "Your handbook is out of date", "A difficult termination or employee complaint",
                    "You rely heavily on contractors"],
          support="A part-time paralegal can keep policies, acknowledgments and investigation files organized.",
          faq=[("Can fractional counsel handle employment issues in multiple states?", "Yes. Employment law varies widely by state, so we match you with counsel experienced in the states where your people work."),
@@ -233,7 +233,7 @@ PRACTICES = [
          handles=["Privacy policies and notices", "Data mapping and privacy program build-out", "Data processing agreements and vendor terms",
                   "GDPR and U.S. state privacy law compliance", "HIPAA questions for health data", "Incident response planning and breach response",
                   "AI governance and responsible-use policies", "Privacy reviews before fundraising or an acquisition"],
-         triggers=["You're expanding to Europe or new U.S. states", "Enterprise customers send privacy and security questionnaires",
+         triggers=["New customers in the EU or in states with their own privacy laws", "Enterprise customers send privacy and security questionnaires",
                    "You're launching AI features", "You've had a data incident"],
          support="A contract administrator can track data processing agreements and vendor reviews.",
          faq=[("Do we need a full-time privacy officer?", "Not usually at first. Many companies use fractional privacy counsel to build the program and then keep a few hours a month for updates, vendor reviews and questions."),
@@ -256,7 +256,7 @@ PRACTICES = [
          handles=["Sell-side preparation and data rooms", "Buy-side due diligence", "Letters of intent and key-term negotiation",
                   "Purchase agreements alongside deal counsel", "Disclosure schedules", "Post-merger integration of contracts, people and policies",
                   "Coordinating outside specialists"],
-         triggers=["You're preparing to sell", "You're acquiring a competitor or a tuck-in", "You received an unsolicited offer",
+         triggers=["A sale process is starting", "You're acquiring a competitor or a tuck-in", "An unsolicited offer just arrived",
                    "You're integrating an acquisition"],
          support="Corporate paralegals can run the data room and diligence tracking.",
          faq=[("Can a fractional lawyer run an acquisition?", "For smaller deals, yes. For larger deals, fractional counsel usually works alongside outside deal counsel, managing the process, the business-side diligence and the budget."),
@@ -314,7 +314,7 @@ PRACTICES = [
          intro="Fractional compliance counsel designs and runs compliance programs sized to your risk: policies, training, investigations and relationships with regulators.",
          handles=["Compliance program design and risk assessments", "Codes of conduct and policies", "Anti-corruption (FCPA), sanctions and export controls",
                   "AML and KYC programs for fintech", "Internal investigations", "Regulatory filings, licenses and examinations", "Training and board reporting"],
-         triggers=["You're entering a regulated market", "You're selling internationally", "A regulator has made an inquiry",
+         triggers=["You're entering a regulated market", "You're selling internationally", "A regulatory exam is on the calendar",
                    "Investors or an acquirer are running diligence"],
          support="A compliance paralegal can manage training records, filings calendars and policy attestations.",
          faq=[("Do we need a chief compliance officer?", "Not always full time. A fractional compliance lawyer can build the program, serve as the point person and scale hours with your risk."),
@@ -334,7 +334,7 @@ PRACTICES = [
          support="Pair a contract attorney with a part-time litigation paralegal to clear demand and discovery backlogs.",
          faq=[("Can I hire a part-time personal injury paralegal?", "Yes. We place video-interviewed PI paralegals for steady weekly hours, a backlog project or leave coverage. They work under your attorneys' supervision."),
               ("Do you place contract attorneys for personal injury firms?", "Yes. We match you with attorneys admitted in your state who can handle depositions, hearings, motions and overflow casework."),
-              ("How does billing work for a contingency-fee practice?", "You pay the professional's hourly rate plus our platform fee, whatever the outcome of the case. LawStaff Group never takes a share of your legal fees.")]),
+              ("How does billing work for a contingency-fee practice?", "You pay one hourly rate for the hours worked, whatever the outcome of the case. LawStaff Group never takes a share of your legal fees.")]),
     dict(slug="insurance-defense", name="Insurance Defense", title="Fractional Insurance Defense Attorneys &amp; Paralegals",
          h1="Insurance Defense <em>Attorneys &amp; Paralegals</em>", img="books",
          blurb="Contract attorneys and paralegals for defense firms and carriers: discovery, depositions, med summaries and trial.",
@@ -347,7 +347,7 @@ PRACTICES = [
          support="Insurance defense paralegals handle medical summaries, discovery and carrier reporting under your attorneys' direction.",
          faq=[("Can fractional attorneys cover depositions and hearings?", "Yes. We match you with defense attorneys admitted in your state who can cover depositions, hearings and motions, or take on a block of files."),
               ("Do your paralegals know carrier billing guidelines?", "We match you with paralegals experienced in insurance defense work, including carrier billing guidelines and UTBMS task codes."),
-              ("Can we bring someone in for a single trial?", "Yes. Project and trial-coverage engagements are common: retain counsel or a trial paralegal for the weeks you need.")]),
+              ("Can we bring someone in for a single trial?", "Yes. Trial coverage is one of the most common contract placements: bring in an attorney or a trial paralegal for the weeks you need.")]),
     dict(slug="workers-compensation", name="Workers' Compensation", title="Fractional Workers' Compensation Attorneys &amp; Paralegals",
          h1="Workers' Compensation <em>Attorneys &amp; Paralegals</em>", img="desk",
          blurb="Attorneys and paralegals for claimant and defense workers' comp practices: hearings, records and settlements.",
@@ -364,18 +364,23 @@ PRACTICES = [
 ]
 
 TALENT = [
-    ("Fractional General Counsel", "A senior lawyer in your GC seat part-time.", "../hire.html#fractional-gc"),
-    ("Part-Time & Project Counsel", "Standing weekly hours, a defined project or interim coverage.", "../hire.html#part-time"),
+    ("Fractional General Counsel", "An experienced attorney handling your company's legal work for set hours each week.", "../hire.html#fractional-gc"),
+    ("Contract Attorneys & Leave Coverage", "Depositions, hearings, overflow files, or a seat held during a leave.", "../hire.html#contract-attorneys"),
     ("Paralegals", "Litigation, corporate, real estate and compliance paralegals.", "../hire.html#paralegals"),
     ("Contract Administrators & Legal Assistants", "Contract operations, calendaring, filings and admin support.", "../hire.html#contracts"),
 ]
 
+# OWN_VOICE_v1: the same four steps as "How a LawStaff Search Runs" on hire.html.
 STEPS = [
-    ("Tell Us the Work", "The role, practice area, hours and jurisdiction you need."),
-    ("Watch the Interviews", "We send matched professionals with their video interviews and rates."),
-    ("Retain Your Pick", "Choose who fits and set the hours. Adjust them anytime."),
-    ("One Invoice", "We bill you and run payroll, employer taxes and insurance."),
+    ("Place an Order", "The role, practice area, hours and jurisdiction. A recruiter follows up within one business day."),
+    ("We Screen", "Interviews, skills tests, references, bar admissions, and your screening questions."),
+    ("You Watch, Then Meet", "Résumés with each candidate's answers and a recorded video interview."),
+    ("Day One, and Every Week", "Fractional and contract hires start on our payroll; we check in on day one and weekly."),
 ]
+
+# One line on how billing works, used on every generated page.
+BILLING = ("On fractional and contract work you pay one hourly rate for the hours you approve, covering "
+           "the professional's pay and our fee, and we quote it for every candidate before you interview.")
 
 
 def e(text: str) -> str:
@@ -496,7 +501,7 @@ def cta_band(heading, text):
     <h2>{heading}</h2>
     <p>{text}</p>
     <div class="cta-actions">
-      <a href="../hire.html#request" class="btn btn-white btn-lg">Request Talent</a>
+      <a href="../hire.html#request" class="btn btn-white btn-lg">Place a Job Order</a>
       <a href="../apply.html" class="btn btn-outline-white btn-lg">Apply Now</a>
     </div>
   </div>
@@ -512,19 +517,19 @@ def city_page(c):
         place = "the " + place
     faq = [
         (f"How do I hire a fractional general counsel in {short}?",
-         f"Tell LawStaff Group what you need (practice area, hours per week and jurisdiction) and we send you matched, video-interviewed counsel with their rates. You retain the lawyer you choose, and we handle billing and payroll."),
+         f"Call LawStaff Group or place a job order with the practice area, hours per week and jurisdiction. A recruiter sends you a short list of video-interviewed attorneys with their rates, and the one you choose works for you on our payroll."),
         (f"Do fractional lawyers in {short} need to be licensed in {c['state']}?",
          f"For advice on {c['state']} law or appearances in {c['state']} courts, generally yes. Many states also let lawyers admitted elsewhere register as in-house counsel for a single employer, and the rules vary. We match you with counsel admitted where your work requires."),
         (f"Can I hire a part-time paralegal, contract administrator or legal assistant in {short}?",
-         "Yes. We place video-interviewed paralegals, contract administrators and legal assistants part-time or for a project. They work under the direction of your attorneys or legal team."),
+         "Yes. We place video-interviewed paralegals, contract administrators and legal assistants part-time, on contract, temp-to-hire or permanently. They work under the direction of your attorneys or legal team."),
         (f"How much does fractional counsel cost in {short}?",
-         "Each professional sets their own hourly rate, based on experience and practice area. You pay one all-in rate (their rate plus our platform fee) on one invoice, and we quote it for everyone we present. Our Legal Salary Guide shows what legal professionals are asking to be paid."),
+         "Rates depend on experience and practice area. " + BILLING + " Our Legal Salary Guide shows what legal professionals are asking to be paid."),
         (f"Do I have to be in {short} to work with fractional counsel?",
-         "No. Most fractional engagements are remote-first, with on-site time when the work calls for it."),
+         "No. Much fractional and contract work is remote, with on-site time when the work calls for it."),
     ]
     title = f"Fractional General Counsel &amp; Legal Talent in {e(place)} | LawStaff Group"
-    desc = (f"Hire fractional general counsel, part-time lawyers, paralegals, contract administrators and legal assistants in {place}. "
-            "Video-interviewed talent, one invoice, payroll handled by LawStaff Group.")
+    desc = (f"Hire fractional general counsel, contract attorneys, paralegals, contract administrators and legal assistants in {place}. "
+            "Fractional, contract, temp-to-hire and direct hire, every candidate video-interviewed by LawStaff Group.")
     others = [(o["city"], f"{o['slug']}.html") for o in CITIES if o is not c]
     practice_links = [(p["name"], f"../practice-areas/{p['slug']}.html") for p in PRACTICES]
     talent = "\n".join(f"""      <a class="seo-card" href="{href}">
@@ -539,7 +544,7 @@ def city_page(c):
       <span class="section-kicker">{e(short)}</span>
       <h2 class="section-title">Fractional Legal Help for <em>{e(short)} Businesses</em></h2>
       <div class="section-divider"></div>
-      <p><strong style="color:var(--ink);">LawStaff Group connects businesses in {e(place)} with video-interviewed fractional general counsel, part-time in-house counsel, paralegals, contract administrators and legal assistants, and runs billing and payroll on every engagement.</strong></p>
+      <p><strong style="color:var(--ink);">LawStaff Group places video-interviewed fractional general counsel, contract attorneys, paralegals, contract administrators and legal assistants with businesses and law firms in {e(place)}, on fractional, contract, temp-to-hire or direct-hire terms.</strong></p>
       <p>{e(c['angle'])}</p>
       <p>Serving {e(c['areas'])}. Remote-first, with on-site help when you need it.</p>
       <div class="tags">
@@ -559,8 +564,8 @@ def city_page(c):
 
 <section class="section section-alt">
   <div class="container">
-    <span class="section-kicker">Who You Can Retain</span>
-    <h2 class="section-title">Fractional Legal Talent in <em>{e(short)}</em></h2>
+    <span class="section-kicker">Who We Place</span>
+    <h2 class="section-title">Legal Talent in <em>{e(short)}</em></h2>
     <div class="seo-grid">
 {talent}
     </div>
@@ -574,9 +579,9 @@ def city_page(c):
 <section class="section">
   <div class="container">
     <span class="section-kicker">How It Works</span>
-    <h2 class="section-title">From Request to Retained Talent</h2>
+    <h2 class="section-title">How a LawStaff Search Runs</h2>
     <div class="section-divider"></div>
-    <p class="section-sub">Every professional has applied, recorded a video interview and had references checked, with bar admissions confirmed for attorneys. Each sets their own rate, and you pay one all-in rate on one invoice.</p>
+    <p class="section-sub">A LawStaff recruiter screens every candidate: interview, skills, references, bar admissions for attorneys and a recorded video interview. {e(BILLING)}</p>
     <div class="steps-row">
 {steps_html()}
     </div>
@@ -587,14 +592,14 @@ def city_page(c):
 <section class="section section-alt" style="padding:56px 0;">
   <div class="container">
     <span class="section-kicker">Other Cities</span>
-    <h2 class="section-title" style="font-size:1.5rem;">Fractional Talent Across the U.S.</h2>
+    <h2 class="section-title" style="font-size:1.5rem;">Legal Talent Across the U.S.</h2>
     <div class="practice-chips practice-chips--left">
 {chips(others)}
       <a class="practice-chip" href="index.html">All locations</a>
     </div>
   </div>
 </section>
-{cta_band(f"Fractional Legal Talent<br>for {e(short)}", f"Tell us about the work. Lawyers and legal professionals in {e(short)} can apply to join the platform.")}"""
+{cta_band(f"Legal Talent<br>for {e(short)}", f"Tell us about the opening. Attorneys and legal professionals in {e(short)}: apply in a few minutes.")}"""
     schema = [
         crumbs_ld([("Home", BASE + "/"), ("Locations", BASE + "/locations/index.html"), (name, f"{BASE}/locations/{c['slug']}.html")]),
         {"@type": "Service", "name": f"Fractional counsel and legal talent in {place}", "url": f"{BASE}/locations/{c['slug']}.html",
@@ -608,7 +613,7 @@ def city_page(c):
     return page(path=f"locations/{c['slug']}.html", title=title, desc=desc, schema=schema,
                 crumbs=[("Locations", "index.html"), (name, None)],
                 h1=f"Fractional Counsel &amp; Legal Talent in <em>{e(in_name)}</em>",
-                hero_p=f"Video-interviewed fractional general counsel, part-time lawyers, paralegals, contract administrators and legal assistants for {e(short)} businesses. One invoice. Payroll handled.",
+                hero_p=f"Video-interviewed fractional general counsel, contract attorneys, paralegals, contract administrators and legal assistants for {e(short)} businesses and law firms. Fractional, contract, temp-to-hire or direct hire.",
                 hero_ctas=hero_ctas, img=c["img"], body=body)
 
 
@@ -617,7 +622,7 @@ def practice_page(p):
     name = p["name"]
     h1 = p.get("h1", f"Fractional <em>{e(name)}</em> Counsel")
     title = f"{p['title']} | Part-Time Lawyers | LawStaff Group"
-    desc = f"{html.unescape(p['title'])}: {p['blurb']} Video-interviewed lawyers by the hour, week or month. One invoice, payroll handled by LawStaff Group."
+    desc = f"{html.unescape(p['title'])}: {p['blurb']} Fractional, contract and permanent placements, every candidate video-interviewed by LawStaff Group."
     cities = [(c["city"], f"../locations/{c['slug']}.html") for c in CITIES]
     others = [(o["name"], f"{o['slug']}.html") for o in PRACTICES if o is not p]
     triggers = "\n".join(f"""      <div class="diff-item">
@@ -632,7 +637,7 @@ def practice_page(p):
       <h2 class="section-title">What Fractional {e(name)} Counsel <em>Does</em></h2>
       <div class="section-divider"></div>
       <p><strong style="color:var(--ink);">{e(p['intro'])}</strong></p>
-      <p>Through LawStaff Group you retain experienced, video-interviewed counsel for the hours you need, from a few hours a month to several days a week. We run billing and payroll on every engagement, so your counsel just practices law.</p>
+      <p>LawStaff Group places experienced, video-interviewed attorneys for the hours the work needs, from a few hours a month to several days a week, or full time on contract. While they work with you on a fractional or contract basis, they're on our payroll.</p>
       <p>{e(p['support'])}</p>
     </div>
     <div class="panel fee-panel">
@@ -649,7 +654,7 @@ def practice_page(p):
   <div class="container">
     <div class="centered">
       <span class="section-kicker">When to Bring Them In</span>
-      <h2 class="section-title">Signs You Need Fractional {e(name)} Counsel</h2>
+      <h2 class="section-title">Common Reasons to Bring In {e(name)} Help</h2>
     </div>
     <div class="diff-grid">
 {triggers}
@@ -660,9 +665,9 @@ def practice_page(p):
 <section class="section">
   <div class="container">
     <span class="section-kicker">How It Works</span>
-    <h2 class="section-title">From Request to Retained Counsel</h2>
+    <h2 class="section-title">How a LawStaff Search Runs</h2>
     <div class="section-divider"></div>
-    <p class="section-sub">Every lawyer has applied, recorded a video interview, had bar admissions confirmed and references checked. Each sets their own rate, and you pay one all-in rate on one invoice.</p>
+    <p class="section-sub">A LawStaff recruiter screens every candidate: interview, skills, references, bar admissions for attorneys and a recorded video interview. {e(BILLING)}</p>
     <div class="steps-row">
 {steps_html()}
     </div>
@@ -685,7 +690,7 @@ def practice_page(p):
     </div>
   </div>
 </section>
-{cta_band(f"Retain Fractional<br>{e(name)} Counsel", "Tell us about the work, and we'll send you video-interviewed counsel who fit.")}"""
+{cta_band(f"Tell Us About Your<br>{e(name)} Opening", "A LawStaff recruiter will call you back within one business day.")}"""
     schema = [
         crumbs_ld([("Home", BASE + "/"), ("Practice Areas", BASE + "/practice-areas/index.html"), (name, f"{BASE}/practice-areas/{p['slug']}.html")]),
         {"@type": "Service", "name": html.unescape(p["title"]), "url": f"{BASE}/practice-areas/{p['slug']}.html",
@@ -697,7 +702,7 @@ def practice_page(p):
                  '<a href="../apply.html" class="btn btn-outline-white btn-lg">Lawyers: Apply</a>')
     return page(path=f"practice-areas/{p['slug']}.html", title=title, desc=desc, schema=schema,
                 crumbs=[("Practice Areas", "index.html"), (name, None)], h1=h1,
-                hero_p=e(p["blurb"]) + " Video-interviewed counsel by the hour, week or month.",
+                hero_p=e(p["blurb"]) + " Fractional, contract or permanent, every candidate video-interviewed.",
                 hero_ctas=hero_ctas, img=p["img"], body=body)
 
 
@@ -707,14 +712,14 @@ def hub_page(kind):
         cards = [(c["city"], f"{', '.join(c['industries'][:3])}.", f"{c['slug']}.html") for c in CITIES]
         title, h1 = "Fractional Counsel &amp; Legal Talent by City | LawStaff Group", "Fractional Legal Talent <em>by City</em>"
         desc = "Fractional general counsel, part-time lawyers, paralegals, contract administrators and legal assistants in Atlanta, New York, Los Angeles, the Bay Area, Chicago, Texas and more."
-        intro = "LawStaff Group matches businesses with video-interviewed fractional counsel and legal support professionals across the U.S. Most engagements are remote-first, and every attorney is matched to the jurisdictions your work requires."
+        intro = "LawStaff Group places video-interviewed attorneys and legal support professionals with businesses and law firms across the U.S. Much of the work is remote, and every attorney is matched to the jurisdictions your work requires."
         kicker, path, crumb = "Locations", "locations/index.html", "Locations"
         footer_note = 'Don\'t see your city? We work remotely across the U.S. <a href="../hire.html#request" style="color:var(--blue);font-weight:600;">Tell us what you need →</a>'
     else:
         cards = [(p["name"], p["blurb"], f"{p['slug']}.html") for p in PRACTICES]
         title, h1 = "Fractional Counsel by Practice Area | LawStaff Group", "Fractional Counsel <em>by Practice Area</em>"
         desc = "Fractional general counsel and part-time lawyers for commercial contracts, employment, privacy, startups, M&A, IP, technology, healthcare, real estate and compliance."
-        intro = "Retain experienced, video-interviewed counsel for the practice area you need, by the hour, week or month. LawStaff Group runs billing and payroll on every engagement."
+        intro = "Experienced, video-interviewed attorneys and legal support for the practice area you need: fractional, contract, temp-to-hire or direct hire."
         kicker, path, crumb = "Practice Areas", "practice-areas/index.html", "Practice Areas"
         footer_note = 'Need something else? <a href="../hire.html#request" style="color:var(--blue);font-weight:600;">Tell us about the work →</a>'
     grid = "\n".join(f"""      <a class="seo-card" href="{href}">
@@ -735,7 +740,7 @@ def hub_page(kind):
     <p class="section-sub" style="margin-top:32px;">{footer_note}</p>
   </div>
 </section>
-{cta_band("Hire Fractional Legal Talent,<br>or Join the Platform", "Tell us what your business needs, or apply to join the platform.")}"""
+{cta_band("Hire Legal Talent,<br>or Find Your Next Role", "Tell us about the opening, or apply in a few minutes.")}"""
     schema = [
         crumbs_ld([("Home", BASE + "/"), (crumb, f"{BASE}/{path}")]),
         {"@type": "CollectionPage", "name": html.unescape(title), "url": f"{BASE}/{path}", "description": desc,
@@ -792,7 +797,7 @@ def write_home_links():
   <div class="container">
     <div class="centered">
       <span class="section-kicker">Near You</span>
-      <h2 class="section-title">Fractional Talent <em>by City and Practice</em></h2>
+      <h2 class="section-title">Legal Talent <em>by City and Practice</em></h2>
     </div>
     <div class="practice-chips">
 {city_chips}
