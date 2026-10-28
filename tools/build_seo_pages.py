@@ -379,8 +379,8 @@ STEPS = [
 ]
 
 # One line on how billing works, used on every generated page.
-BILLING = ("On fractional and contract work you pay one hourly rate for the hours you approve, covering "
-           "the professional's pay and our fee, and we quote it for every candidate before you interview.")
+BILLING = ("We bill by the hour: on fractional and contract work you pay one hourly rate for the hours you approve, "
+           "covering the professional's pay and our fee, and we quote it for every candidate before you interview.")
 
 
 def e(text: str) -> str:
