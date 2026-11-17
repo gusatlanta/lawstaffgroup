@@ -468,7 +468,7 @@
       nextBtn.disabled = false;
       nextBtn.textContent = 'Send my application';
       showError(err && err.fromServer && err.message ? err.message
-        : 'Your application didn’t go through. Please try again, or call 404-250-0790 or email gus@stafffinancial.com.');
+        : 'Your application didn’t go through. Please try again, or call 404-250-0790.');
     }
   }
 

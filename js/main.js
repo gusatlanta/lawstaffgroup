@@ -56,7 +56,7 @@
         d.role_title      ? 'Role: '              + d.role_title      : '',
         d.hire_type       ? 'Type: '              + d.hire_type       : '',
         d.need            ? 'Needs: '             + d.need            : '',
-        d.engagement      ? 'Temp or permanent: ' + d.engagement      : '',
+        d.engagement      ? 'Engagement: ' + d.engagement      : '',
         d.schedule        ? 'Full / part time: '  + d.schedule        : '',
         d.work_setup      ? 'Work location: '     + d.work_setup      : '',
         d.hours           ? 'Hours / week: '      + d.hours           : '',
@@ -109,7 +109,7 @@
         }
       } catch (err) {
         if (btn) { btn.disabled = false; btn.textContent = orig; }
-        alert('Something went wrong — please call 404-250-0790 or email gus@stafffinancial.com.');
+        alert('Something went wrong — please call 404-250-0790.');
       }
     });
   });

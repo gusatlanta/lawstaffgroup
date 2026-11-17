@@ -4,6 +4,7 @@ SEO_PAGES_v1 (Gus 10-24: "seo the page for different cities and practice areas f
 both ChatGPT and Claude"). Writes:
 
   locations/index.html + locations/<city>.html            (one page per city below)
+  legal-staffing/<suburb>-ga.html                         (metro Atlanta submarkets, tools/atlanta_suburbs.py)
   practice-areas/index.html + practice-areas/<area>.html  (one page per practice area)
   sitemap.xml                                             (all pages)
   llms.txt                                                (the generated block)
@@ -26,6 +27,8 @@ import json
 import re
 from datetime import date
 from pathlib import Path
+
+from atlanta_suburbs import SF_BASE, SUBURB_DIR, SUBURBS
 
 SITE = Path(__file__).resolve().parent.parent
 BASE = "https://www.lawstaffgroup.net"
@@ -332,7 +335,7 @@ PRACTICES = [
          triggers=["A marketing push doubled your caseload", "Demands are backing up", "A paralegal or associate is on leave",
                    "Your trial calendar is stacking up"],
          support="Pair a contract attorney with a part-time litigation paralegal to clear demand and discovery backlogs.",
-         faq=[("Can I hire a part-time personal injury paralegal?", "Yes. We place video-interviewed PI paralegals for steady weekly hours, a backlog project or leave coverage. They work under your attorneys' supervision."),
+         faq=[("Can I hire a part-time personal injury paralegal?", "Yes. We place screened PI paralegals for steady weekly hours, a backlog project or leave coverage. They work under your attorneys' supervision."),
               ("Do you place contract attorneys for personal injury firms?", "Yes. We match you with attorneys admitted in your state who can handle depositions, hearings, motions and overflow casework."),
               ("How does billing work for a contingency-fee practice?", "You pay one hourly rate for the hours worked, whatever the outcome of the case. LawStaff Group never takes a share of your legal fees.")]),
     dict(slug="insurance-defense", name="Insurance Defense", title="Fractional Insurance Defense Attorneys &amp; Paralegals",
@@ -358,7 +361,7 @@ PRACTICES = [
          triggers=["Your hearing docket is full", "A paralegal is out on leave", "Claim volume jumped",
                    "You need someone who knows your state's system"],
          support="A part-time workers' comp paralegal can keep records, forms and board deadlines moving.",
-         faq=[("Do you place workers' comp paralegals part-time?", "Yes. We place video-interviewed workers' compensation paralegals for steady weekly hours or leave coverage, under your attorneys' supervision."),
+         faq=[("Do you place workers' comp paralegals part-time?", "Yes. We place screened workers' compensation paralegals for steady weekly hours or leave coverage, under your attorneys' supervision."),
               ("Can you match us with someone who knows our state's system?", "Workers' compensation rules are state-specific, so we match you with attorneys admitted in your state and paralegals experienced with its forms and deadlines."),
               ("Do you work with both claimant and defense practices?", "Yes. We place attorneys and paralegals on both sides, and you choose who fits your practice.")]),
 ]
@@ -374,7 +377,7 @@ TALENT = [
 STEPS = [
     ("Place an Order", "The role, practice area, hours and jurisdiction. A recruiter follows up within one business day."),
     ("We Screen", "Interviews, skills tests, references, bar admissions, and your screening questions."),
-    ("You Watch, Then Meet", "Résumés with each candidate's answers and a recorded video interview."),
+    ("You Review, Then Meet", "Résumés with each candidate's answers, plus a video intro when the candidate has recorded one."),
     ("Day One, and Every Week", "Fractional and contract hires start on our payroll; we check in on day one and weekly."),
 ]
 
@@ -501,7 +504,7 @@ def cta_band(heading, text):
     <h2>{heading}</h2>
     <p>{text}</p>
     <div class="cta-actions">
-      <a href="../hire.html#request" class="btn btn-white btn-lg">Place a Job Order</a>
+      <a href="../hire.html#request" class="btn btn-white btn-lg">Get Started</a>
       <a href="../apply.html" class="btn btn-outline-white btn-lg">Apply Now</a>
     </div>
   </div>
@@ -517,11 +520,11 @@ def city_page(c):
         place = "the " + place
     faq = [
         (f"How do I hire a fractional general counsel in {short}?",
-         f"Call LawStaff Group or place a job order with the practice area, hours per week and jurisdiction. A recruiter sends you a short list of video-interviewed attorneys with their rates, and the one you choose works for you on our payroll."),
+         f"Call LawStaff Group or place a job order with the practice area, hours per week and jurisdiction. A recruiter sends you a short list of screened attorneys with their rates, and the one you choose works for you on our payroll."),
         (f"Do fractional lawyers in {short} need to be licensed in {c['state']}?",
          f"For advice on {c['state']} law or appearances in {c['state']} courts, generally yes. Many states also let lawyers admitted elsewhere register as in-house counsel for a single employer, and the rules vary. We match you with counsel admitted where your work requires."),
         (f"Can I hire a part-time paralegal, contract administrator or legal assistant in {short}?",
-         "Yes. We place video-interviewed paralegals, contract administrators and legal assistants part-time, on contract, temp-to-hire or permanently. They work under the direction of your attorneys or legal team."),
+         "Yes. We place screened paralegals, contract administrators and legal assistants part-time, on contract, temp-to-hire or through Direct Hire. They work under the direction of your attorneys or legal team."),
         (f"How much does fractional counsel cost in {short}?",
          "Rates depend on experience and practice area. " + BILLING + " Our Legal Salary Guide shows what legal professionals are asking to be paid."),
         (f"Do I have to be in {short} to work with fractional counsel?",
@@ -529,7 +532,7 @@ def city_page(c):
     ]
     title = f"Fractional General Counsel &amp; Legal Talent in {e(place)} | LawStaff Group"
     desc = (f"Hire fractional general counsel, contract attorneys, paralegals, contract administrators and legal assistants in {place}. "
-            "Fractional, contract, temp-to-hire and direct hire, every candidate video-interviewed by LawStaff Group.")
+            "Fractional, contract, temp-to-hire and Direct Hire, every candidate screened by a LawStaff recruiter.")
     others = [(o["city"], f"{o['slug']}.html") for o in CITIES if o is not c]
     practice_links = [(p["name"], f"../practice-areas/{p['slug']}.html") for p in PRACTICES]
     talent = "\n".join(f"""      <a class="seo-card" href="{href}">
@@ -544,7 +547,7 @@ def city_page(c):
       <span class="section-kicker">{e(short)}</span>
       <h2 class="section-title">Fractional Legal Help for <em>{e(short)} Businesses</em></h2>
       <div class="section-divider"></div>
-      <p><strong style="color:var(--ink);">LawStaff Group places video-interviewed fractional general counsel, contract attorneys, paralegals, contract administrators and legal assistants with businesses and law firms in {e(place)}, on fractional, contract, temp-to-hire or direct-hire terms.</strong></p>
+      <p><strong style="color:var(--ink);">LawStaff Group places recruiter-screened fractional general counsel, contract attorneys, paralegals, contract administrators and legal assistants with businesses and law firms in {e(place)}, on fractional, contract, temp-to-hire or direct-hire terms.</strong></p>
       <p>{e(c['angle'])}</p>
       <p>Serving {e(c['areas'])}. Remote-first, with on-site help when you need it.</p>
       <div class="tags">
@@ -581,13 +584,14 @@ def city_page(c):
     <span class="section-kicker">How It Works</span>
     <h2 class="section-title">How a LawStaff Search Runs</h2>
     <div class="section-divider"></div>
-    <p class="section-sub">A LawStaff recruiter screens every candidate: interview, skills, references, bar admissions for attorneys and a recorded video interview. {e(BILLING)}</p>
+    <p class="section-sub">A LawStaff recruiter screens every candidate: interview, skills, references, bar admissions for attorneys, and an invitation to record an optional video intro. {e(BILLING)}</p>
     <div class="steps-row">
 {steps_html()}
     </div>
   </div>
 </section>
 {faq_html(faq, f"Fractional Counsel in {e(short)}")}
+{metro_atlanta_section() if c["slug"] == "atlanta" else ""}
 
 <section class="section section-alt" style="padding:56px 0;">
   <div class="container">
@@ -608,13 +612,108 @@ def city_page(c):
          "areaServed": {"@type": "City", "name": name, "containedInPlace": {"@type": "State", "name": c["state"]}}},
         faq_ld(faq),
     ]
-    hero_ctas = (f'<a href="../hire.html#request" class="btn btn-white btn-lg">Request Talent →</a>'
+    hero_ctas = (f'<a href="../hire.html#request" class="btn btn-white btn-lg">Get Started →</a>'
                  f'<a href="../apply.html" class="btn btn-outline-white btn-lg">Lawyers &amp; Paralegals: Apply</a>')
     return page(path=f"locations/{c['slug']}.html", title=title, desc=desc, schema=schema,
                 crumbs=[("Locations", "index.html"), (name, None)],
                 h1=f"Fractional Counsel &amp; Legal Talent in <em>{e(in_name)}</em>",
-                hero_p=f"Video-interviewed fractional general counsel, contract attorneys, paralegals, contract administrators and legal assistants for {e(short)} businesses and law firms. Fractional, contract, temp-to-hire or direct hire.",
+                hero_p=f"Screened fractional general counsel, contract attorneys, paralegals, contract administrators and legal assistants for {e(short)} businesses and law firms. Fractional, contract, temp-to-hire or direct hire.",
                 hero_ctas=hero_ctas, img=c["img"], body=body)
+
+
+# ── Metro Atlanta legal staffing pages (ATL_SUBURBS_v1) ────────────────────────
+def suburb_url(s):
+    return f"{SUBURB_DIR}/{s['slug']}-ga.html"
+
+
+def suburb_page(s):
+    name, short = s["city"], s.get("short", s["city"])
+    by_slug = {x["slug"]: x for x in SUBURBS}
+    path = suburb_url(s)
+    title = f"Legal Staffing in {e(name)}, GA | Paralegals | LawStaff Group"
+    desc = s["desc"]
+    roles = "\n".join(f"""      <div class="seo-card">
+        <h3>{e(t)}</h3>
+        <p>{e(d)}</p>
+      </div>""" for t, d in s["roles"])
+    nearby = [(by_slug[n].get("short", by_slug[n]["city"]), f"{n}-ga.html") for n in s["nearby"]]
+    body = f"""
+<section class="section">
+  <div class="container two-col" style="align-items:start;">
+    <div class="prose">
+      <span class="section-kicker">{e(s['county'])}</span>
+      <h2 class="section-title">Legal Staffing for <em>{e(short)}</em> Firms and Legal Teams</h2>
+      <div class="section-divider"></div>
+      <p><strong style="color:var(--ink);">{e(s['lede'])}</strong></p>
+      <p>{e(s['market'])}</p>
+    </div>
+    <div class="panel fee-panel">
+      <span class="section-kicker">Hiring in {e(short)}</span>
+      <h3 style="font-size:1.2rem;margin-bottom:4px;">What We Screen For Here</h3>
+      <ul class="check-list">
+{chr(10).join(f'        <li>{e(n)}</li>' for n in s['notes'])}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <span class="section-kicker">Roles We Fill</span>
+    <h2 class="section-title">Paralegals and Legal Assistants in <em>{e(short)}</em></h2>
+    <div class="seo-grid">
+{roles}
+    </div>
+    <p class="section-sub" style="margin-top:28px;"><a href="../index.html#fees" style="color:var(--blue);font-weight:600;">How billing works →</a></p>
+  </div>
+</section>
+{faq_html(s['faq'], f"Legal Staffing in {e(short)}")}
+
+<section class="section section-alt" style="padding:56px 0;">
+  <div class="container">
+    <span class="section-kicker">Nearby</span>
+    <h2 class="section-title" style="font-size:1.5rem;">Nearby Areas</h2>
+    <div class="practice-chips practice-chips--left">
+{chips(nearby)}
+      <a class="practice-chip" href="../locations/atlanta.html#metro-atlanta">All areas</a>
+    </div>
+    <p class="section-sub" style="margin-top:24px;">Accounting or finance hire? <a href="{SF_BASE}/{s['slug']}-ga.html" style="color:var(--blue);font-weight:600;">Staff Financial in {e(short)}</a>. Parent company: <a href="https://www.northpointsearchgroup.com/" style="color:var(--blue);font-weight:600;">NorthPoint Search Group</a>.</p>
+  </div>
+</section>
+{cta_band(f"Legal Staffing<br>in {e(short)}", f"Tell us about your {e(short)} opening, or apply in minutes.")}"""
+    url = f"{BASE}/{path}"
+    schema = [
+        crumbs_ld([("Home", BASE + "/"), ("Locations", BASE + "/locations/index.html"),
+                   ("Atlanta", BASE + "/locations/atlanta.html"), (name, url)]),
+        {"@type": "Service", "name": f"Legal staffing in {name}, GA", "url": url,
+         "serviceType": ["Legal staffing", "Paralegal staffing", "Legal assistant staffing", "Contract attorneys"],
+         "provider": ORG, "description": desc,
+         "hasOfferCatalog": {"@type": "OfferCatalog", "name": f"Legal roles in {name}",
+                             "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": t}} for t, _ in s["roles"]]},
+         "areaServed": {"@type": "City", "name": name.replace(" Atlanta", ""),
+                        "containedInPlace": {"@type": "AdministrativeArea", "name": s["county"].split(" (")[0] + ", Georgia"}}},
+        faq_ld(s["faq"]),
+    ]
+    hero_ctas = ('<a href="../hire.html#request" class="btn btn-white btn-lg">Get Started →</a>'
+                 '<a href="../apply.html" class="btn btn-outline-white btn-lg">Paralegals &amp; Assistants: Apply</a>')
+    return page(path=path, title=title, desc=desc, schema=schema,
+                crumbs=[("Locations", "../locations/index.html"), ("Atlanta", "../locations/atlanta.html"), (name, None)],
+                h1=f"Legal Staffing in <em>{e(name)}, GA</em>", hero_p=e(s["hero"]), hero_ctas=hero_ctas, img=s["img"], body=body)
+
+
+def metro_atlanta_section():
+    """Added to locations/atlanta.html only: links down to the submarket pages."""
+    return f"""
+<section class="section" id="metro-atlanta" style="padding:56px 0;">
+  <div class="container">
+    <span class="section-kicker">Metro Atlanta</span>
+    <h2 class="section-title" style="font-size:1.5rem;">Paralegals and Legal Assistants Across Metro Atlanta</h2>
+    <p class="section-sub">Hiring legal support close to home? Each area has its own page.</p>
+    <div class="practice-chips practice-chips--left">
+{chips([(x.get("short", x["city"]), "../" + suburb_url(x)) for x in SUBURBS])}
+    </div>
+  </div>
+</section>"""
 
 
 # ── Practice-area pages ────────────────────────────────────────────────────────
@@ -622,7 +721,7 @@ def practice_page(p):
     name = p["name"]
     h1 = p.get("h1", f"Fractional <em>{e(name)}</em> Counsel")
     title = f"{p['title']} | Part-Time Lawyers | LawStaff Group"
-    desc = f"{html.unescape(p['title'])}: {p['blurb']} Fractional, contract and permanent placements, every candidate video-interviewed by LawStaff Group."
+    desc = f"{html.unescape(p['title'])}: {p['blurb']} Fractional, contract and Direct Hire placements, every candidate screened by a LawStaff recruiter."
     cities = [(c["city"], f"../locations/{c['slug']}.html") for c in CITIES]
     others = [(o["name"], f"{o['slug']}.html") for o in PRACTICES if o is not p]
     triggers = "\n".join(f"""      <div class="diff-item">
@@ -637,7 +736,7 @@ def practice_page(p):
       <h2 class="section-title">What Fractional {e(name)} Counsel <em>Does</em></h2>
       <div class="section-divider"></div>
       <p><strong style="color:var(--ink);">{e(p['intro'])}</strong></p>
-      <p>LawStaff Group places experienced, video-interviewed attorneys for the hours the work needs, from a few hours a month to several days a week, or full time on contract. While they work with you on a fractional or contract basis, they're on our payroll.</p>
+      <p>LawStaff Group places experienced, recruiter-screened attorneys for the hours the work needs, from a few hours a month to several days a week, or full time on contract. While they work with you on a fractional or contract basis, they're on our payroll.</p>
       <p>{e(p['support'])}</p>
     </div>
     <div class="panel fee-panel">
@@ -667,7 +766,7 @@ def practice_page(p):
     <span class="section-kicker">How It Works</span>
     <h2 class="section-title">How a LawStaff Search Runs</h2>
     <div class="section-divider"></div>
-    <p class="section-sub">A LawStaff recruiter screens every candidate: interview, skills, references, bar admissions for attorneys and a recorded video interview. {e(BILLING)}</p>
+    <p class="section-sub">A LawStaff recruiter screens every candidate: interview, skills, references, bar admissions for attorneys, and an invitation to record an optional video intro. {e(BILLING)}</p>
     <div class="steps-row">
 {steps_html()}
     </div>
@@ -698,11 +797,11 @@ def practice_page(p):
          "areaServed": {"@type": "Country", "name": "United States"}},
         faq_ld(p["faq"]),
     ]
-    hero_ctas = ('<a href="../hire.html#request" class="btn btn-white btn-lg">Request Counsel →</a>'
+    hero_ctas = ('<a href="../hire.html#request" class="btn btn-white btn-lg">Get Started →</a>'
                  '<a href="../apply.html" class="btn btn-outline-white btn-lg">Lawyers: Apply</a>')
     return page(path=f"practice-areas/{p['slug']}.html", title=title, desc=desc, schema=schema,
                 crumbs=[("Practice Areas", "index.html"), (name, None)], h1=h1,
-                hero_p=e(p["blurb"]) + " Fractional, contract or permanent, every candidate video-interviewed.",
+                hero_p=e(p["blurb"]) + " Fractional, contract or Direct Hire, every candidate screened by a LawStaff recruiter.",
                 hero_ctas=hero_ctas, img=p["img"], body=body)
 
 
@@ -712,14 +811,14 @@ def hub_page(kind):
         cards = [(c["city"], f"{', '.join(c['industries'][:3])}.", f"{c['slug']}.html") for c in CITIES]
         title, h1 = "Fractional Counsel &amp; Legal Talent by City | LawStaff Group", "Fractional Legal Talent <em>by City</em>"
         desc = "Fractional general counsel, part-time lawyers, paralegals, contract administrators and legal assistants in Atlanta, New York, Los Angeles, the Bay Area, Chicago, Texas and more."
-        intro = "LawStaff Group places video-interviewed attorneys and legal support professionals with businesses and law firms across the U.S. Much of the work is remote, and every attorney is matched to the jurisdictions your work requires."
+        intro = "LawStaff Group places screened attorneys and legal support professionals with businesses and law firms across the U.S. Much of the work is remote, and every attorney is matched to the jurisdictions your work requires."
         kicker, path, crumb = "Locations", "locations/index.html", "Locations"
         footer_note = 'Don\'t see your city? We work remotely across the U.S. <a href="../hire.html#request" style="color:var(--blue);font-weight:600;">Tell us what you need →</a>'
     else:
         cards = [(p["name"], p["blurb"], f"{p['slug']}.html") for p in PRACTICES]
         title, h1 = "Fractional Counsel by Practice Area | LawStaff Group", "Fractional Counsel <em>by Practice Area</em>"
         desc = "Fractional general counsel and part-time lawyers for commercial contracts, employment, privacy, startups, M&A, IP, technology, healthcare, real estate and compliance."
-        intro = "Experienced, video-interviewed attorneys and legal support for the practice area you need: fractional, contract, temp-to-hire or direct hire."
+        intro = "Experienced, screened attorneys and legal support for the practice area you need: fractional, contract, temp-to-hire or direct hire."
         kicker, path, crumb = "Practice Areas", "practice-areas/index.html", "Practice Areas"
         footer_note = 'Need something else? <a href="../hire.html#request" style="color:var(--blue);font-weight:600;">Tell us about the work →</a>'
     grid = "\n".join(f"""      <a class="seo-card" href="{href}">
@@ -747,7 +846,7 @@ def hub_page(kind):
          "hasPart": [{"@type": "WebPage", "name": t, "url": f"{BASE}/{path.split('/')[0]}/{href}"} for t, _, href in cards]},
     ]
     return page(path=path, title=title, desc=desc, schema=schema, crumbs=[(crumb, None)], h1=h1, hero_p=e(intro),
-                hero_ctas='<a href="../hire.html#request" class="btn btn-white btn-lg">Request Talent →</a>',
+                hero_ctas='<a href="../hire.html#request" class="btn btn-white btn-lg">Get Started →</a>',
                 img="books", body=body)
 
 
@@ -758,7 +857,8 @@ ROOT_PAGES = ["", "hire.html", "join.html", "apply.html", "services.html", "cand
 
 def generated_paths():
     return (["locations/index.html"] + [f"locations/{c['slug']}.html" for c in CITIES]
-            + ["practice-areas/index.html"] + [f"practice-areas/{p['slug']}.html" for p in PRACTICES])
+            + ["practice-areas/index.html"] + [f"practice-areas/{p['slug']}.html" for p in PRACTICES]
+            + [suburb_url(x) for x in SUBURBS])
 
 
 def write_sitemap():
@@ -780,6 +880,8 @@ def replace_block(path, begin, end, content):
 def write_llms():
     lines = ["", "## Fractional talent by city"]
     lines += [f"- {c['city']}: {BASE}/locations/{c['slug']}.html" for c in CITIES]
+    lines += ["", "## Legal staffing in metro Atlanta (paralegals, legal assistants, contract attorneys)"]
+    lines += [f"- {x['city']}, GA: {BASE}/{suburb_url(x)}" for x in SUBURBS]
     lines += ["", "## Fractional counsel by practice area"]
     lines += [f"- {p['name']}: {BASE}/practice-areas/{p['slug']}.html ({p['blurb']})" for p in PRACTICES]
     path = SITE / "llms.txt"
@@ -792,6 +894,7 @@ def write_llms():
 def write_home_links():
     city_chips = chips([(c["city"], f"locations/{c['slug']}.html") for c in CITIES])
     practice_chips = chips([(p["name"], f"practice-areas/{p['slug']}.html") for p in PRACTICES])
+    metro_chips = chips([(x.get("short", x["city"]), suburb_url(x)) for x in SUBURBS])
     block = f"""
 <section class="section" style="padding-top:0;">
   <div class="container">
@@ -804,6 +907,10 @@ def write_home_links():
     </div>
     <div class="practice-chips" style="margin-top:14px;">
 {practice_chips}
+    </div>
+    <p class="section-sub" style="margin:22px auto 10px;">Legal staffing in metro Atlanta</p>
+    <div class="practice-chips">
+{metro_chips}
     </div>
   </div>
 </section>
@@ -827,18 +934,19 @@ def write_faq_schema(name):
 
 
 def main():
-    for folder in ("locations", "practice-areas"):
+    for folder in ("locations", "practice-areas", SUBURB_DIR):
         (SITE / folder).mkdir(exist_ok=True)
     out = {"locations/index.html": hub_page("locations"), "practice-areas/index.html": hub_page("practice")}
     out.update({f"locations/{c['slug']}.html": city_page(c) for c in CITIES})
     out.update({f"practice-areas/{p['slug']}.html": practice_page(p) for p in PRACTICES})
+    out.update({suburb_url(x): suburb_page(x) for x in SUBURBS})
     for rel, content in out.items():
         (SITE / rel).write_text(content, encoding="utf-8", newline="\n")
     write_sitemap()
     write_llms()
     write_home_links()
     faqs = {n: write_faq_schema(n) for n in ("index.html", "hire.html", "join.html")}
-    print(f"{len(out)} pages written ({len(CITIES)} cities, {len(PRACTICES)} practice areas, 2 hubs); "
+    print(f"{len(out)} pages written ({len(CITIES)} cities, {len(PRACTICES)} practice areas, {len(SUBURBS)} metro Atlanta areas, 2 hubs); "
           f"sitemap.xml, llms.txt, home links and FAQ schema updated {faqs}")
 
 
