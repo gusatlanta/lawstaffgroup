@@ -32,6 +32,21 @@ from atlanta_suburbs import SF_BASE, SUBURB_DIR, SUBURBS
 
 SITE = Path(__file__).resolve().parent.parent
 BASE = "https://www.lawstaffgroup.net"
+# GA4 measurement tag. The same snippet is in every hand-written page's <head>.
+# tools/check_ga_tag.py lists any HTML page that is missing it. Keep this in
+# page() so a rebuild does not strip the tag.
+GA_ID = "G-8016NR4VR1"
+GA_TAG = (
+    "  <!-- Google tag (gtag.js) -->\n"
+    f'  <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>\n'
+    "  <script>\n"
+    "    window.dataLayer = window.dataLayer || [];\n"
+    "    function gtag(){dataLayer.push(arguments);}\n"
+    "    gtag('js', new Date());\n"
+    "\n"
+    f"    gtag('config', '{GA_ID}');\n"
+    "  </script>"
+)
 ORG = {"@type": "EmploymentAgency", "@id": BASE + "/#organization", "name": "LawStaff Group", "url": BASE}
 UPDATED = date.today()
 IMG = {
@@ -423,6 +438,7 @@ def page(*, path, title, desc, schema, crumbs, h1, hero_p, hero_ctas, img, body)
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
+{GA_TAG}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
