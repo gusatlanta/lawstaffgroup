@@ -155,7 +155,7 @@
       </div>
 
       <div class="form-card" style="margin-top:-30px;box-shadow:var(--shadow-lg);">
-        <form id="guide-form" method="post" action="https://100xrecruiting.com/api/public/salary-guide" novalidate>
+        <form id="guide-form" method="post" action="https://100xrecruiting.com/api/public/salary-guide" novalidate data-human-check>
           <div class="sg-gh">
             <div>
               <h3 style="margin-bottom:4px;">Get the Salary Guide</h3>
@@ -194,6 +194,7 @@
 <script src="https://100xrecruiting.com/static/plan_cards_embed.js?v=1" data-target="hx-plans"
         data-kicker="Membership plans · 100X Recruiting" defer></script>
 
+<script src="js/human-check.js"></script>
 <script>
 (function () {
   var form = document.getElementById('guide-form');
@@ -206,10 +207,15 @@
     if (!data.name.trim() || !/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(data.email.trim()) || !data.company.trim()) {
       err.textContent = 'Please add your name, work email and company.'; err.hidden = false; return;
     }
+    // HUMAN_CHECK_v1: the "Verify you are human" box (js/human-check.js); 100X checks its token
+    // on /api/public/salary-guide too (SALARY_GUIDE_HUMAN_CHECK_v1).
+    if (window.HumanCheck && HumanCheck.blocked(form)) return;
+    data.cf_turnstile_response = window.HumanCheck ? HumanCheck.token(form) : '';
     btn.disabled = true; btn.textContent = 'One moment…'; err.hidden = true;
     fetch('https://100xrecruiting.com/api/public/salary-guide', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
       .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'Something went wrong. Please try again.' }; }); })
       .then(function (d) {
+        if (window.HumanCheck && HumanCheck.refused(form, d)) { btn.disabled = false; btn.textContent = 'Download the Salary Guide →'; return; }
         if (!d.ok) { btn.disabled = false; btn.textContent = 'Download the Salary Guide →'; err.textContent = d.error || 'Something went wrong.'; err.hidden = false; return; }
         form.hidden = true; document.getElementById('g-done').hidden = false;
       })
