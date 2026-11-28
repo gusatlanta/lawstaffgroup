@@ -332,7 +332,7 @@
 
         <!-- LAWSTAFF_DOORS_v1: posts to 100X's job-order door (an unlisted draft job + the
              client into PCR); main.js falls back to the inquiry inbox if that door is down. -->
-        <form data-form="lawstaff-job-order" data-endpoint="/api/public/lawstaff/job-order" novalidate>
+        <form data-form="lawstaff-job-order" data-endpoint="/api/public/lawstaff/job-order" data-human-check novalidate>
           <div class="hp-field" aria-hidden="true"><label>Website<input type="text" name="hp_website" tabindex="-1" autocomplete="off"></label></div>
           <div class="form-group">
             <label for="jo-need">What type of legal professional do you need? *</label>
@@ -648,6 +648,7 @@
   </div>
 </footer>
 
+<script src="js/human-check.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

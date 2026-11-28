@@ -345,7 +345,11 @@
     if (i > furthest) furthest = i;
     backBtn.classList.toggle('is-hidden', i === 0);
     nextBtn.textContent = i === last ? 'Send my application' : 'Save & continue';
-    if (i === last) buildReview();
+    if (i === last) {
+      buildReview();
+      /* HUMAN_CHECK_v1: the "Verify you are human" box lives on tab G only, put there when it opens. */
+      if (window.HumanCheck) HumanCheck.attach(form, { before: tabs[last].querySelector('.lsa-note') });
+    }
     renderIndex();
     if (focus === false) return;
     saveDraft();
@@ -400,6 +404,7 @@
     for (var k = 0; k < last; k++) {
       if (!check(tabs[k], true)) { show(k); check(tabs[k]); return; }
     }
+    if (window.HumanCheck && HumanCheck.blocked(form)) return;
     send();
   });
 
@@ -428,6 +433,7 @@
     ['first_name', 'last_name', 'email', 'phone', 'hp_website'].forEach(function (k) { fd.append(k, field(k)); });
     fd.append('role', roleKey());
     fd.append('notes', notes());
+    fd.append('cf_turnstile_response', window.HumanCheck ? HumanCheck.token(form) : '');
     var file = form.elements.resume && form.elements.resume.files[0];
     if (file) fd.append('resume', file);
     var res = await fetch(APPLY_DOOR, { method: 'POST', body: fd }).catch(function () { return null; });
@@ -453,10 +459,17 @@
             inquiry_type: 'lawstaff-' + (roleKey() || 'talent') + '-application',
             candidate_id: '',
             hp_website: field('hp_website'),
+            cf_turnstile_response: window.HumanCheck ? HumanCheck.token(form) : '',
             notes: notes()
           })
         });
         json = await res.json().catch(function () { return {}; });
+      }
+      if (window.HumanCheck && HumanCheck.refused(form, json)) {
+        nextBtn.disabled = false;
+        nextBtn.textContent = 'Send my application';
+        clearError();
+        return;
       }
       if (!json.ok) {
         var bad = new Error(json.error || '');

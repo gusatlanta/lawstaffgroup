@@ -42,12 +42,15 @@
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
+      if (window.HumanCheck && HumanCheck.blocked(form)) return;   // HUMAN_CHECK_v1
       var btn = form.querySelector('button[type="submit"]');
       var successEl = form.querySelector('.alert-success');
       var orig = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
 
       var d = Object.fromEntries(new FormData(form));
+      // HUMAN_CHECK_v1: the "Verify you are human" token goes with the door post and the inbox post.
+      d.cf_turnstile_response = window.HumanCheck ? HumanCheck.token(form) : '';
       var name = ((d.first_name || '') + ' ' + (d.last_name || '')).trim();
       var notes = [
         'Site: LawStaffGroup.net',
@@ -95,10 +98,15 @@
               inquiry_type:     form.dataset.form,
               candidate_id:     d.candidate_id || '',
               hp_website:       d.hp_website || '',
+              cf_turnstile_response: d.cf_turnstile_response,
               notes:            notes,
             }),
           });
           json = await res.json().catch(function () { return {}; });
+        }
+        if (window.HumanCheck && HumanCheck.refused(form, json)) {
+          if (btn) { btn.disabled = false; btn.textContent = orig; }
+          return;
         }
         if (json.ok) {
           form.reset();

@@ -132,7 +132,7 @@
 
         <div id="candNote" class="alert" style="display:none;background:#e8f5fa;border:1px solid #c5e5f0;color:var(--blue-dark);margin:0 0 20px;"></div>
 
-        <form data-form="lawstaff-contact" novalidate>
+        <form data-form="lawstaff-contact" data-human-check novalidate>
           <input type="hidden" name="candidate_id" id="candidate-id" value="">
           <input type="hidden" name="candidate_title" id="candidate-title" value="">
           <div class="hp-field" aria-hidden="true"><label>Website<input type="text" name="hp_website" tabindex="-1" autocomplete="off"></label></div>
@@ -265,6 +265,7 @@
   </div>
 </footer>
 
+<script src="js/human-check.js"></script>
 <script src="js/main.js"></script>
 <script>
 /* Arriving from a candidate card: carry the candidate reference into the form. */
